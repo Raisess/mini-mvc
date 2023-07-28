@@ -15,7 +15,8 @@ class Server:
     app = Flask(__name__, static_folder="../../public/static", static_url_path="")
     @app.errorhandler(Exception)
     def handle_exception(e: Exception):
-      app.logger.error(e)
+      print(e.__str__())
+      print("".join(traceback.format_tb(e.__traceback__)))
       view = View("error")
       return view.render({
         "reason": e.__str__(),
