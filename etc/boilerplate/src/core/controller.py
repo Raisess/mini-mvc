@@ -1,15 +1,16 @@
+from flask import redirect, request, Request, Response
 from typing import Callable
 from core.view import View
 
 class Controller:
-  def handle_request(self, args: dict, form: dict) -> str | None:
-    raise NotImplemented()
-
-  def handle_view(self) -> str:
-    raise NotImplemented()
-
   def render(self, view: View, data: dict = {}) -> str:
     return view.render(data)
+
+  def request(self) -> Request:
+    return request
+
+  def redirect(self, location: str, code: int = 302) -> Response:
+    return redirect(location, code)
 
 
 class Validation:

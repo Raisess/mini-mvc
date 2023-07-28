@@ -1,0 +1,3 @@
+#! /usr/bin/env bash
+
+/usr/local/lib/mini-mvc/main.py "$@"
