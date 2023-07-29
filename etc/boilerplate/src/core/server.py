@@ -3,6 +3,7 @@ import sys
 import traceback
 
 from flask import Flask
+from flask_session import Session
 
 from core.view import View
 
@@ -13,6 +14,13 @@ class Server:
 
   def listen(self) -> None:
     app = Flask(__name__, static_folder="../../public/static", static_url_path="")
+    app.config["SESSION_PERMANENT"] = True if os.getenv("SESSION_PERMANENT") == "0" else False
+    app.config["SESSION_TYPE"] = os.getenv("SESSION_TYPE") or "filesystem"
+    Session(app)
+
+    if not os.getenv("LAZY_LOAD") == "1":
+      View.Init()
+
     @app.errorhandler(Exception)
     def handle_exception(e: Exception):
       print(e.__str__())
