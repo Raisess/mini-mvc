@@ -30,8 +30,7 @@ class Server:
     def handle_exception(e: Exception):
       print(e.__str__())
       print("".join(traceback.format_tb(e.__traceback__)))
-      view = View("error")
-      return view.render({
+      return View("error").render({
         "reason": e.__str__(),
         "stacktrace": "".join(traceback.format_tb(e.__traceback__)),
       })
