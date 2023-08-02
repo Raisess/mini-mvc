@@ -22,7 +22,7 @@ class Server:
       View.Init()
 
     app = Flask(__name__, static_folder="../../public/static", static_url_path="")
-    app.config["SESSION_PERMANENT"] = True if Env.Get("SESSION_PERMANENT") == "0" else False
+    app.config["SESSION_PERMANENT"] = True if Env.Get("SESSION_PERMANENT") == "1" else False
     app.config["SESSION_TYPE"] = Env.Get("SESSION_TYPE") or "filesystem"
     Session(app)
 
