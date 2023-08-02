@@ -4,7 +4,7 @@ from core.view import View
 
 class Controller:
   def session_set(key: str, value: str) -> None:
-    return session[key] = value
+    session[key] = value
 
   def session_get(key: str) -> str | None:
     return session.get(key)
