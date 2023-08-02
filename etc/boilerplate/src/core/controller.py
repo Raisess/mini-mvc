@@ -1,7 +1,14 @@
+from flask import session
 from typing import Callable
 from core.view import View
 
 class Controller:
+  def session_set(key: str, value: str) -> None:
+    return session[key] = value
+
+  def session_get(key: str) -> str | None:
+    return session.get(key)
+
   def render(self, view: View, data: dict = {}) -> str:
     return view.render(data)
 
