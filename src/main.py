@@ -35,14 +35,14 @@ class Generate(Command):
     with open(f"/usr/local/etc/mini-mvc/templates/{ftype}.template.py", "r") as src:
       src_content = src.read()
 
+    folders = []
     path = args[1].split("/")
-    folder = None
     name = path[0]
     full_path = f"./src/app/{ftype}s/{name}.py"
     if len(path) > 1:
-      folder = path[:-1][0]
+      folders = path[:-1]
       name = path[-1:][0]
-      dest_path = f"./src/app/{ftype}s/{folder}"
+      dest_path = f"./src/app/{ftype}s/{'/'.join(folders)}"
       full_path = f"{dest_path}/{name}.py"
 
       if not os.path.exists(dest_path):
@@ -53,13 +53,17 @@ class Generate(Command):
       print("> FAIL: File already exists!")
       return
 
+    class_name = self.__to_camel(name)
     with open(full_path, "w") as dest:
-      dest.write(src_content.replace("{{name}}", self.__to_camel(name)))
+      if len(folders) > 0:
+        class_name = self.__to_camel(f"{'_'.join(folders)}_{name}")
+
+      dest.write(src_content.replace("{{name}}", class_name))
 
     with open(f"./src/app/{ftype}s/__init__.py", "a") as init:
-      class_name = f"{self.__to_camel(name)}{ftype.capitalize()}"
-      if folder:
-        init.write(f"\nfrom app.{ftype}s.{folder}.{name} import {class_name}")
+      class_name = f"{class_name}{ftype.capitalize()}"
+      if len(folders) > 0:
+        init.write(f"\nfrom app.{ftype}s.{'.'.join(folders)}.{name} import {class_name}")
       else:
         init.write(f"\nfrom app.{ftype}s.{name} import {class_name}")
 
