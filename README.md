@@ -1,5 +1,12 @@
 # Mini MVC
 
+### Installing the CLI:
+
+```shell
+$ git clone https://github.com/Raisess/mini-mvc.git
+$ cd mini-mvc && ./install.py
+```
+
 ### Creating and running your project:
 
 ```shell
