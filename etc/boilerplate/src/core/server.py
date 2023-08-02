@@ -6,6 +6,7 @@ from flask import Flask
 from flask_session import Session
 
 from core.env import Env
+from core.mailer import Mailer
 from core.view import View
 
 class Server:
@@ -15,7 +16,9 @@ class Server:
 
   def listen(self) -> None:
     Env.Init()
-    if not Env.Get("LAZY_LOAD") == "1":
+    if Env.Get("USE_MAILER") == "1":
+      Mailer.Init()
+    if Env.Get("LAZY_LOAD") != "1":
       View.Init()
 
     app = Flask(__name__, static_folder="../../public/static", static_url_path="")

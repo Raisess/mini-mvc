@@ -9,7 +9,7 @@ class View:
     files = os.listdir(dir)
     for file in files:
       path = f"{dir}/{file}"
-      if os.path.isdir(path) and path != "public/static":
+      if os.path.isdir(path) and path != "public/static" and path != "public/emails":
         View.Init(path)
 
       if file.endswith(".html"):
