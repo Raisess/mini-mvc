@@ -5,6 +5,7 @@ import traceback
 from flask import Flask
 from flask_session import Session
 
+from core.env import Env
 from core.view import View
 
 class Server:
@@ -13,13 +14,14 @@ class Server:
     self.__host = sys.argv[2] if len(sys.argv) > 2 else host
 
   def listen(self) -> None:
-    app = Flask(__name__, static_folder="../../public/static", static_url_path="")
-    app.config["SESSION_PERMANENT"] = True if os.getenv("SESSION_PERMANENT") == "0" else False
-    app.config["SESSION_TYPE"] = os.getenv("SESSION_TYPE") or "filesystem"
-    Session(app)
-
-    if not os.getenv("LAZY_LOAD") == "1":
+    Env.Init()
+    if not Env.Get("LAZY_LOAD") == "1":
       View.Init()
+
+    app = Flask(__name__, static_folder="../../public/static", static_url_path="")
+    app.config["SESSION_PERMANENT"] = True if Env.Get("SESSION_PERMANENT") == "0" else False
+    app.config["SESSION_TYPE"] = Env.Get("SESSION_TYPE") or "filesystem"
+    Session(app)
 
     @app.errorhandler(Exception)
     def handle_exception(e: Exception):
