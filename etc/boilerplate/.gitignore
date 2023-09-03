@@ -1,3 +1,7 @@
+bin/
+include/
+lib/
+lib64/
 __pycache__/
-flask_session
+flask_session/
 .env
