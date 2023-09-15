@@ -30,7 +30,8 @@ class Generate(Command):
 
   def handle(self, args: list[str]) -> None:
     ftype = args[0]
-    ["controller", "model", "view"].index(ftype)
+    ["controller", "model", "repository", "view"].index(ftype)
+    ftype_path = "repositories" if ftype == "repository" else f"{ftype}s"
 
     src_content = ""
     with open(f"/usr/local/etc/mini-mvc/templates/{ftype}.template.py", "r") as src:
@@ -39,15 +40,15 @@ class Generate(Command):
     folders = []
     path = args[1].split("/")
     name = path[0]
-    full_path = f"./src/app/{ftype}s/{name}.py"
+    full_path = f"./src/app/{ftype_path}/{name}.py"
     if len(path) > 1:
       folders = path[:-1]
       name = path[-1:][0]
-      dest_path = f"./src/app/{ftype}s/{'/'.join(folders)}"
+      dest_path = f"./src/app/{ftype_path}/{'/'.join(folders)}"
       full_path = f"{dest_path}/{name}.py"
 
       if not os.path.exists(dest_path):
-        os.mkdir(dest_path)
+        os.makedirs(dest_path)
 
 
     if os.path.exists(full_path):
@@ -61,12 +62,12 @@ class Generate(Command):
 
       dest.write(src_content.replace("{{name}}", class_name))
 
-    with open(f"./src/app/{ftype}s/__init__.py", "a") as init:
+    with open(f"./src/app/{ftype_path}/__init__.py", "a") as init:
       class_name = f"{class_name}{ftype.capitalize()}"
       if len(folders) > 0:
-        init.write(f"\nfrom app.{ftype}s.{'.'.join(folders)}.{name} import {class_name}")
+        init.write(f"\nfrom app.{ftype_path}.{'.'.join(folders)}.{name} import {class_name}")
       else:
-        init.write(f"\nfrom app.{ftype}s.{name} import {class_name}")
+        init.write(f"\nfrom app.{ftype_path}.{name} import {class_name}")
 
     print(f"> SUCCESS: Generated new {ftype} at {full_path}!")
 
