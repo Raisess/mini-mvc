@@ -1,5 +1,8 @@
 from dataclasses import dataclass, field
+from uuid import uuid4
 
 @dataclass
 class Model:
-  pass
+  @staticmethod
+  def GenUUID() -> str:
+    return str(uuid4())
