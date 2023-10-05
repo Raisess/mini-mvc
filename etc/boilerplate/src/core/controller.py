@@ -1,3 +1,4 @@
+import json
 from flask import session
 from typing import Callable
 from core.view import View
@@ -11,6 +12,9 @@ class Controller:
 
   def render(self, view: View, data: dict = {}) -> str:
     return view.render(data)
+
+  def json(self, data: dict | str) -> str:
+    return data if isinstance(data, str) else json.dumps(data)
 
 
 class Validation:
