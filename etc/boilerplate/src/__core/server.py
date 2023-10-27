@@ -5,9 +5,9 @@ import traceback
 from flask import Flask
 from flask_session import Session
 
-from core.env import Env
-from core.mailer import Mailer
-from core.view import View
+from __core.env import Env
+from __core.mailer import Mailer
+from __core.view import View
 
 class Server:
   def __init__(self, port: int = 8080, host: str = "localhost"):

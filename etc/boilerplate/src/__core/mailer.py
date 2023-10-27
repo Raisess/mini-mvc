@@ -3,7 +3,7 @@ from email.mime.text import MIMEText
 from smtplib import SMTP
 from jinja2 import Template
 
-from core.env import Env
+from __core.env import Env
 
 class Mailer:
   __CLIENT: SMTP = None

@@ -1,7 +1,8 @@
 import json
 from flask import session
 from typing import Callable
-from core.view import View
+
+from __core.view import View
 
 class Controller:
   def session_set(key: str, value: str) -> None:
