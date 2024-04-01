@@ -9,6 +9,8 @@ from __core.env import Env
 from __core.mailer import Mailer
 from __core.view import View
 
+from __core.database.postgresql import PostgresDatabase
+
 class Server:
   def __init__(self, port: int = 8080, host: str = "localhost"):
     self.__port = sys.argv[1] if len(sys.argv) > 1 else port
@@ -18,6 +20,8 @@ class Server:
     Env.Init()
     if Env.Get("USE_MAILER") == "1":
       Mailer.Init()
+    if Env.Get("USE_POSTGRES") == "1":
+      PostgresDatabase.Init()
     if Env.Get("LAZY_LOAD") != "1":
       View.Init()
 
