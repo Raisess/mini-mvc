@@ -6,11 +6,18 @@ from flask import Flask
 from flask_session import Session
 
 from __core.env import Env
-from __core.mailer import Mailer
 from __core.view import View
 
-from __core.database.postgresql import PostgreSQL
-from __core.cache.redis import Redis
+from __core.plugins.database.postgresql import PostgreSQL
+from __core.plugins.cache.redis import Redis
+from __core.plugins.mailer import Mailer
+
+# @NOTE: Each plugin needs to have an static `Init` method
+__PLUGINS = [
+  ("USE_MAILER", Mailer),
+  ("USE_POSTGRES", PostgreSQL),
+  ("USE_REDIS", Redis)
+]
 
 class Server:
   def __init__(self, port: int = 8080, host: str = "localhost"):
@@ -19,14 +26,12 @@ class Server:
 
   def listen(self) -> None:
     Env.Init()
-    if Env.Get("USE_MAILER") == "1":
-      Mailer.Init()
-    if Env.Get("USE_POSTGRES") == "1":
-      PostgreSQL.Init()
-    if Env.Get("USE_REDIS") == "1":
-      Redis.Init()
     if Env.Get("LAZY_LOAD") != "1":
       View.Init()
+
+    for plugin in __PLUGINS:
+      if Env.Get(plugin[0]) == "1":
+        plugin[1].Init()
 
     app = Flask(__name__, static_folder="../../public/static", static_url_path="")
     app.config["SESSION_PERMANENT"] = Env.Get("SESSION_PERMANENT") == "1"
