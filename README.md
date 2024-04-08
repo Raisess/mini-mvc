@@ -1,5 +1,14 @@
 # Mini MVC
 
+Model-View-Controller made easy, keeping it simple.
+
+#### Features:
+
+- PostgreSQL for database integration;
+- Redis for caching;
+- SMTP client for seding email's;
+- View's and email's templating using `Jinja2`
+
 ### Installing the CLI:
 
 ```shell
