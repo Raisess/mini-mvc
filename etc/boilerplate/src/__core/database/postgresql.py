@@ -1,15 +1,14 @@
+# @NOTE: To use this implementation you need to add the `postgres` package to
+# `requirements.txt`
+# @REFERENCE: https://github.com/liberapay/postgres.py
+
 from postgres import Postgres
 
-from __core.env import Env
+from __core.env import Env, InvalidEnvironmentException
 
 class NotConnectedException(Exception):
   def __init__(self):
     super().__init__("PostgreSQL database not connected")
-
-
-class InvalidEnvironmentException(Exception):
-  def __init__(self, option: str):
-    super().__init__(f"Invalid PostgreSQL database option {option}")
 
 
 class PostgreSQL:
@@ -17,6 +16,9 @@ class PostgreSQL:
 
   @staticmethod
   def Init():
+    if PostgreSQL.__CONN:
+      return
+
     username = Env.Get("POSTGRES_USER")
     if not username: raise InvalidEnvironmentException("POSTGRES_USER")
     password = Env.Get("POSTGRES_PASS")

@@ -10,6 +10,7 @@ from __core.mailer import Mailer
 from __core.view import View
 
 from __core.database.postgresql import PostgreSQL
+from __core.cache.redis import Redis
 
 class Server:
   def __init__(self, port: int = 8080, host: str = "localhost"):
@@ -22,6 +23,8 @@ class Server:
       Mailer.Init()
     if Env.Get("USE_POSTGRES") == "1":
       PostgreSQL.Init()
+    if Env.Get("USE_REDIS") == "1":
+      Redis.Init()
     if Env.Get("LAZY_LOAD") != "1":
       View.Init()
 
