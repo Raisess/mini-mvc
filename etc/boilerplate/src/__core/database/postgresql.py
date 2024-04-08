@@ -12,7 +12,7 @@ class InvalidEnvironmentException(Exception):
     super().__init__(f"Invalid PostgreSQL database option {option}")
 
 
-class PostgresDatabase:
+class PostgreSQL:
   __CONN: Postgres = None
 
   @staticmethod

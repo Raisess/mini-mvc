@@ -1,4 +1,4 @@
-from __core.database.postgresql import PostgresDatabase
+from __core.database.postgresql import PostgreSQL
 
-class Repository(PostgresDatabase):
+class Repository(PostgreSQL):
   pass
