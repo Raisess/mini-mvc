@@ -31,16 +31,16 @@ class PostgreSQL:
     if not dbname: raise InvalidEnvironmentException("POSTGRES_DBNAME")
 
     url = f"postgresql://{username}:{password}@{hostname}:{port}/{dbname}"
-    PostgresDatabase.__CONN = Postgres(url=url)
+    PostgreSQL.__CONN = Postgres(url=url)
 
   def void_query(self, sql: str, values: dict[str, any] | None = None) -> None:
-    if not PostgresDatabase.__CONN:
+    if not PostgreSQL.__CONN:
       raise NotConnectedException()
 
-    PostgresDatabase.__CONN.run(sql, vaules)
+    PostgreSQL.__CONN.run(sql, vaules)
 
   def query(self, sql: str, values: dict[str, any] | None = None) -> list[any]:
-    if not PostgresDatabase.__CONN:
+    if not PostgreSQL.__CONN:
       raise NotConnectedException()
 
-    return PostgresDatabase.__CONN.all(sql, values)
+    return PostgreSQL.__CONN.all(sql, values)
