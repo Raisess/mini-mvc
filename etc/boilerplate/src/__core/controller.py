@@ -11,6 +11,9 @@ class Controller:
   def session_get(key: str) -> str | None:
     return session.get(key)
 
+  def session_pop(key: str) -> None:
+    session.pop(key, None)
+
   def render(self, view: View, data: dict = {}) -> str:
     return view.render(data)
 
