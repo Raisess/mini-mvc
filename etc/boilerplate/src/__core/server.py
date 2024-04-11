@@ -27,7 +27,8 @@ class Server:
   def listen(self) -> None:
     Env.Init()
     if Env.Get("LAZY_LOAD") != "1":
-      View.Init()
+      enable_compression = Env.Get("ENABLE_VIEW_COMPRESSION") == "1"
+      View.Init(use_compression=enable_compression)
 
     for plugin in __PLUGINS:
       if Env.Get(plugin[0]) == "1":
