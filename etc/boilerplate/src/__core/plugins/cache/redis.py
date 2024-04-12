@@ -31,29 +31,26 @@ class Redis:
       password=Env.Get("REDIS_PASS")
     )
 
-  def write(self, key: str, value: any, ttl: int = None) -> None:
+  @staticmethod
+  def GetClient() -> RedisClient:
     if not Redis.__CLIENT:
       raise NotConnectedException()
 
-    if not Redis.__CLIENT.set(key, value, ex=ttl):
+    return Redis.__CLIENT
+
+  def write(self, key: str, value: any, ttl: int = None) -> None:
+    client = Redis.GetClient()
+    if not client.set(key, value, ex=ttl):
       raise Exception(f"Failed to set {key} in cache")
 
   def write_json(self, key: str, value: any, ttl: int = None) -> None:
-    if not Redis.__CLIENT:
-      raise NotConnectedException()
-
     self.write(key, json.dumps(value), ttl)
 
   def read(self, key: str) -> str | None:
-    if not Redis.__CLIENT:
-      raise NotConnectedException()
-
-    return Redis.__CLIENT.get(key)
+    client = Redis.GetClient()
+    return client.get(key)
 
   def read_json(self, key: str) -> any:
-    if not Redis.__CLIENT:
-      raise NotConnectedException()
-
     data = self.read(key)
     if not data:
       return None
@@ -61,13 +58,9 @@ class Redis:
     return json.loads(data)
 
   def remove(self, keys: list[str]) -> int:
-    if not Redis.__CLIENT:
-      raise NotConnectedException()
-
-    return Redis.__CLIENT.delete(keys)
+    client = Redis.GetClient()
+    return client.delete(keys)
 
   def ttl(self, key: str) -> int | None:
-    if not Redis.__CLIENT:
-      raise NotConnectedException()
-
-    Redis.__CLIENT.ttl(key)
+    client = Redis.GetClient()
+    client.ttl(key)

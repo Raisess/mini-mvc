@@ -37,6 +37,9 @@ class Server:
     app = Flask(__name__, static_folder="../../public/static", static_url_path="")
     app.config["SESSION_PERMANENT"] = Env.Get("SESSION_PERMANENT") == "1"
     app.config["SESSION_TYPE"] = Env.Get("SESSION_TYPE") or "filesystem"
+    if app.config["SESSION_TYPE"] == "redis":
+      app.config["SESSION_REDIS"] = Redis.GetClient()
+
     Session(app)
 
     @app.errorhandler(Exception)
