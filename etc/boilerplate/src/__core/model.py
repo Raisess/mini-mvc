@@ -25,8 +25,7 @@ class Model:
 
   @staticmethod
   def FromJSON(data: str) -> "Model":
-    SubClass = Model.__subclasses__()[0]
-    return Model._FromDict(Class, json.loads(data))
+    return Model.FromDict(json.loads(data))
 
   def to_dict(self) -> dict:
     return self.__dict__
