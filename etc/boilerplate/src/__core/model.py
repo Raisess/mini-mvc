@@ -15,15 +15,17 @@ class Model:
     return datetime.utcnow().isoformat()
 
   @staticmethod
-  def _FromDict(Class: "Model", data: dict) -> "Model":
-    model = Class()
+  def FromDict(data: dict) -> "Model":
+    SubClass = Model.__subclasses__()[0]
+    model = SubClass()
     for (key, value) in dict.items(data):
       model.__dict__[key] = value
 
     return model
 
   @staticmethod
-  def _FromJSON(Class: "Model", data: str) -> "Model":
+  def FromJSON(data: str) -> "Model":
+    SubClass = Model.__subclasses__()[0]
     return Model._FromDict(Class, json.loads(data))
 
   def to_dict(self) -> dict:
