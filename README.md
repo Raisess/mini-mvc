@@ -6,7 +6,7 @@ Model-View-Controller made easy, keeping it simple.
 
 - PostgreSQL for database integration;
 - Redis for caching;
-- SMTP client for seding email's;
+- SMTP client for sending email's;
 - View's and email's templating using `Jinja2`
 
 ### Installing the CLI:
