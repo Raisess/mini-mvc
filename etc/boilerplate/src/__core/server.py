@@ -13,7 +13,7 @@ from __core.plugins.database.redis import Redis
 from __core.plugins.mailer import Mailer
 
 # @NOTE: Each plugin needs to have an static `Init` method
-__PLUGINS = [
+PLUGINS = [
   ("USE_MAILER", Mailer),
   ("USE_POSTGRES", PostgreSQL),
   ("USE_REDIS", Redis)
@@ -30,7 +30,7 @@ class Server:
       enable_compression = Env.Get("ENABLE_VIEW_COMPRESSION") == "1"
       View.Init(use_compression=enable_compression)
 
-    for plugin in __PLUGINS:
+    for plugin in PLUGINS:
       if Env.Get(plugin[0]) == "1":
         plugin[1].Init()
 
