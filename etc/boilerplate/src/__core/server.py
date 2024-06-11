@@ -9,7 +9,7 @@ from __core.env import Env
 from __core.view import View
 
 from __core.plugins.database.postgresql import PostgreSQL
-from __core.plugins.cache.redis import Redis
+from __core.plugins.database.redis import Redis
 from __core.plugins.mailer import Mailer
 
 # @NOTE: Each plugin needs to have an static `Init` method
