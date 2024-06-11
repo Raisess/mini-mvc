@@ -46,6 +46,10 @@ class Redis:
   def write_json(self, key: str, value: any, ttl: int = None) -> None:
     self.write(key, json.dumps(value), ttl)
 
+  def scan(self, pattern: str) -> list[str]:
+    client = Redis.GetClient()
+    return [key for key in client.scan_iter(pattern)]
+
   def read(self, key: str) -> str | None:
     client = Redis.GetClient()
     return client.get(key)
