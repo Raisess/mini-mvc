@@ -1,7 +1,6 @@
 from __core.model import Model
-from __core.plugins.database.postgresql import PostgreSQL
 
-class Repository(PostgreSQL):
+class Repository:
   def create(self, data: Model) -> str:
     raise NotImplemented()
 
