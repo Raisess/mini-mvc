@@ -8,15 +8,16 @@ from flask_session import Session
 from __core.env import Env
 from __core.view import View
 
-from __core.plugins.database.postgresql import PostgreSQL
-from __core.plugins.database.redis import Redis
-from __core.plugins.mailer import Mailer
+from __core.plugins.cache import Memory, Redis
+from __core.plugins.database import PostgreSQL
+from __core.plugins.services import Mailer
 
 # @NOTE: Each plugin needs to have an static `Init` method
 PLUGINS = [
   ("USE_MAILER", Mailer),
   ("USE_POSTGRES", PostgreSQL),
-  ("USE_REDIS", Redis)
+  ("USE_REDIS", Redis),
+  ("USE_MEMORY", Memory),
 ]
 
 class Server:

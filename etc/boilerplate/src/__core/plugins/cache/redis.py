@@ -6,13 +6,14 @@ import json
 from redis import Redis as RedisClient
 
 from __core.env import Env, InvalidEnvironmentException
+from __core.plugins.cache.cache import Cache
 
 class NotConnectedException(Exception):
   def __init__(self):
     super().__init__("Redis cache not connected")
 
 
-class Redis:
+class Redis(Cache):
   __CLIENT: RedisClient = None
 
   @staticmethod
@@ -38,7 +39,7 @@ class Redis:
 
     return Redis.__CLIENT
 
-  def write(self, key: str, value: any, ttl: int = None) -> None:
+  def write(self, key: str, value: str, ttl: int = None) -> None:
     client = Redis.GetClient()
     if not client.set(key, value, ex=ttl):
       raise Exception(f"Failed to set {key} in cache")
