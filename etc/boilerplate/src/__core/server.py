@@ -8,16 +8,12 @@ from flask_session import Session
 from __core.env import Env
 from __core.view import View
 
-from __core.plugins.cache import Memory, Redis
-from __core.plugins.database import PostgreSQL
-from __core.plugins.services import Mailer
-
 # @NOTE: Each plugin needs to have an static `Init` method
 PLUGINS = [
-  ("USE_MAILER", Mailer),
-  ("USE_POSTGRES", PostgreSQL),
-  ("USE_REDIS", Redis),
-  ("USE_MEMORY", Memory),
+  ("USE_MAILER", "__core.plugins.services.mailer", "Mailer"),
+  ("USE_POSTGRES", "__core.plugins.database.postgresql", "PostgreSQL"),
+  ("USE_REDIS", "__core.plugins.cache.redis", "Redis"),
+  ("USE_MEMORY", "__core.plugins.cache.memory", "Memory"),
 ]
 
 class Server:
@@ -33,7 +29,14 @@ class Server:
 
     for plugin in PLUGINS:
       if Env.Get(plugin[0]) == "1":
-        plugin[1].Init()
+        module = getattr(__import__(plugin[1]), "plugins")
+        attrs = plugin[1].split(".")[2:]
+        for attr in attrs:
+          module = getattr(module, attr)
+
+        module = getattr(module, plugin[2])
+        module.Init()
+
 
     app = Flask(__name__, static_folder="../../public/static", static_url_path="")
     app.config["SESSION_PERMANENT"] = Env.Get("SESSION_PERMANENT") == "1"
