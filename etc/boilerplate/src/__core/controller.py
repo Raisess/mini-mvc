@@ -14,8 +14,9 @@ class Controller:
   def session_pop(key: str) -> None:
     session.pop(key, None)
 
-  def render(self, view: View, data: dict = {}) -> str:
-    return view.render(data)
+  def render(self, view: View | str, data: dict = {}) -> str:
+    is_view = isinstance(view, View)
+    return (view if is_view else View(view)).render(data)
 
   def json(self, data: dict | str) -> str:
     return data if isinstance(data, str) else json.dumps(data)
