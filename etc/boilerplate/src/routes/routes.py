@@ -1,9 +1,7 @@
-from flask import Blueprint, request
-
 from __core.controller import Controller
 
-routes = Blueprint("routes", __name__)
-controller = Controller()
+controller = Controller("routes", __name__)
+routes = controller.router()
 
 @routes.get("/")
 def get():
