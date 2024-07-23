@@ -32,6 +32,9 @@ class Controller:
   def session_pop(self, key: str) -> None:
     session.pop(key, None)
 
+  def redirect(path: str) -> None:
+    redirect(path)
+
   def request(self) -> Request:
     return Request()
 
