@@ -22,9 +22,12 @@ class Redis(Cache):
       return
 
     host = Env.Get("REDIS_HOST")
-    if not host: raise InvalidEnvironmentException("REDIS_HOST")
+    if not host:
+      raise InvalidEnvironmentException("REDIS_HOST")
+
     port = Env.Get("REDIS_PORT")
-    if not port: raise InvalidEnvironmentException("REDIS_PORT")
+    if not port:
+      raise InvalidEnvironmentException("REDIS_PORT")
 
     Redis.__CLIENT = RedisClient(
       host=host,

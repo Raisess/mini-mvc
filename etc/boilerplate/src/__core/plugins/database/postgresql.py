@@ -20,15 +20,24 @@ class PostgreSQL:
       return
 
     username = Env.Get("POSTGRES_USER")
-    if not username: raise InvalidEnvironmentException("POSTGRES_USER")
+    if not username:
+      raise InvalidEnvironmentException("POSTGRES_USER")
+
     password = Env.Get("POSTGRES_PASS")
-    if not password: raise InvalidEnvironmentException("POSTGRES_PASS")
+    if not password:
+      raise InvalidEnvironmentException("POSTGRES_PASS")
+
     hostname = Env.Get("POSTGRES_HOST")
-    if not hostname: raise InvalidEnvironmentException("POSTGRES_HOST")
+    if not hostname:
+      raise InvalidEnvironmentException("POSTGRES_HOST")
+
     port = Env.Get("POSTGRES_PORT")
-    if not port: raise InvalidEnvironmentException("POSTGRES_PORT")
+    if not port:
+      raise InvalidEnvironmentException("POSTGRES_PORT")
+
     dbname = Env.Get("POSTGRES_DBNAME")
-    if not dbname: raise InvalidEnvironmentException("POSTGRES_DBNAME")
+    if not dbname:
+      raise InvalidEnvironmentException("POSTGRES_DBNAME")
 
     url = f"postgresql://{username}:{password}@{hostname}:{port}/{dbname}"
     PostgreSQL.__CONN = Postgres(url=url)

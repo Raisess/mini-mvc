@@ -3,7 +3,7 @@ from email.mime.text import MIMEText
 from smtplib import SMTP
 from jinja2 import Template
 
-from __core.env import Env
+from __core.env import Env, InvalidEnvironmentException
 
 class Mailer:
   __CLIENT: SMTP = None
@@ -13,19 +13,19 @@ class Mailer:
   def Init() -> None:
     host = Env.Get("MAILER_HOST")
     if not host:
-      raise Exception("Mailer host not provided")
+      raise InvalidEnvironmentException("MAILER_HOST")
 
     port = Env.Get("MAILER_PORT")
     if not port:
-      raise Exception("Mailer port not provided")
+      raise InvalidEnvironmentException("MAILER_PORT")
 
     Mailer.__SENDER = Env.Get("MAILER_USER")
     if not Mailer.__SENDER:
-      raise Exception("Mailer user not provided")
+      raise InvalidEnvironmentException("MAILER_USER")
 
     password = Env.Get("MAILER_PASS")
     if not password:
-      raise Exception("Mailer password not provided")
+      raise InvalidEnvironmentException("MAILER_PASS")
 
     import ssl
     Mailer.__CLIENT = SMTP(host, int(port))
