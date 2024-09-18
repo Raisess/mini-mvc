@@ -12,6 +12,7 @@ from __core.view import View
 PLUGINS = [
   ("USE_MAILER", "__core.plugins.services.mailer", "Mailer"),
   ("USE_POSTGRES", "__core.plugins.database.postgresql", "PostgreSQL"),
+  ("USE_SQLITE", "__core.plugins.database.sqlite", "SQLite"),
   ("USE_REDIS", "__core.plugins.cache.redis", "Redis"),
   ("USE_MEMORY", "__core.plugins.cache.memory", "Memory"),
 ]

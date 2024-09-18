@@ -33,13 +33,13 @@ class PostgreSQL:
     url = f"postgresql://{username}:{password}@{hostname}:{port}/{dbname}"
     PostgreSQL.__CONN = Postgres(url=url)
 
-  def void_query(self, sql: str, values: dict[str, any] | None = None) -> None:
+  def void_query(self, sql: str, values: dict[str, any] | tuple[any] | None = None) -> None:
     if not PostgreSQL.__CONN:
       raise NotConnectedException()
 
     PostgreSQL.__CONN.run(sql, vaules)
 
-  def query(self, sql: str, values: dict[str, any] | None = None) -> list[any]:
+  def query(self, sql: str, values: dict[str, any] | tuple[any] | None = None) -> list[any]:
     if not PostgreSQL.__CONN:
       raise NotConnectedException()
 
