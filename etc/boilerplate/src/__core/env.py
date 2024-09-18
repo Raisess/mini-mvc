@@ -19,5 +19,9 @@ class Env:
             Env.__DATA[cols[0]] = cols[1].replace("\"", "").replace("'", "")
 
   @staticmethod
-  def Get(key: str) -> str | None:
-    return Env.__DATA.get(key) or os.getenv(key)
+  def Get(key: str, default: str = None) -> str | None:
+    return Env.__DATA.get(key) or os.getenv(key, default)
+
+  @staticmethod
+  def IsEnabled(key: str) -> bool:
+    Env.Get(key) == "1"

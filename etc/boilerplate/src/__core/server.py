@@ -3,7 +3,6 @@ import sys
 import traceback
 
 from flask import Flask
-from flask_session import Session
 
 from __core.env import Env
 from __core.view import View
@@ -24,12 +23,11 @@ class Server:
 
   def listen(self) -> None:
     Env.Init()
-    if Env.Get("LAZY_LOAD") != "1":
-      enable_compression = Env.Get("ENABLE_VIEW_COMPRESSION") == "1"
-      View.Init(use_compression=enable_compression)
+    if not Env.IsEnabled("LAZY_LOAD"):
+      View.Init(use_compression=Env.IsEnabled("ENABLE_VIEW_COMPRESSION"))
 
     for plugin in PLUGINS:
-      if Env.Get(plugin[0]) == "1":
+      if Env.IsEnabled(plugin[0]):
         module = getattr(__import__(plugin[1]), "plugins")
         attrs = plugin[1].split(".")[2:]
         for attr in attrs:
@@ -40,12 +38,15 @@ class Server:
 
 
     app = Flask(__name__, static_folder="../../public/static", static_url_path="")
-    app.config["SESSION_PERMANENT"] = Env.Get("SESSION_PERMANENT") == "1"
-    app.config["SESSION_TYPE"] = Env.Get("SESSION_TYPE") or "filesystem"
-    if app.config["SESSION_TYPE"] == "redis":
-      app.config["SESSION_REDIS"] = Redis.GetClient()
+    if Env.IsEnabled("USE_SESSION"):
+      from flask_session import Session
 
-    Session(app)
+      app.config["SESSION_PERMANENT"] = Env.IsEnabled("SESSION_PERMANENT")
+      app.config["SESSION_TYPE"] = Env.Get("SESSION_TYPE", "filesystem")
+      if app.config["SESSION_TYPE"] == "redis":
+        app.config["SESSION_REDIS"] = Redis.GetClient()
+
+      Session(app)
 
     @app.errorhandler(Exception)
     def handle_exception(e: Exception):
