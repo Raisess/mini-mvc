@@ -5,13 +5,14 @@
 from postgres import Postgres
 
 from __core.env import Env, InvalidEnvironmentException
+from __core.plugins.database.database import Database
 
 class NotConnectedException(Exception):
   def __init__(self):
     super().__init__("PostgreSQL database not connected")
 
 
-class PostgreSQL:
+class PostgreSQL(Database):
   __CONN: Postgres = None
 
   @staticmethod

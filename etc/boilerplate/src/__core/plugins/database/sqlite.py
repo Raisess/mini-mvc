@@ -1,13 +1,14 @@
 import sqlite3
 
 from __core.env import Env, InvalidEnvironmentException
+from __core.plugins.database.database import Database
 
 class NotConnectedException(Exception):
   def __init__(self):
     super().__init__("SQLite database not connected")
 
 
-class SQLite:
+class SQLite(Database):
   __CONN = None
 
   @staticmethod

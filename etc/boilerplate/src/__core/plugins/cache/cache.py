@@ -1,21 +1,21 @@
 class Cache:
   def write(self, key: str, value: str, ttl: int = None) -> None:
-    raise Exception("Not implemented")
+    raise NotImplemented()
 
   def write_json(self, key: str, value: any, ttl: int = None) -> None:
-    raise Exception("Not implemented")
+    raise NotImplemented()
 
   def scan(self, pattern: str) -> list[str]:
-    raise Exception("Not implemented")
+    raise NotImplemented()
 
   def read(self, key: str) -> str | None:
-    raise Exception("Not implemented")
+    raise NotImplemented()
 
   def read_json(self, key: str) -> any:
-    raise Exception("Not implemented")
+    raise NotImplemented()
 
   def remove(self, keys: list[str]) -> int:
-    raise Exception("Not implemented")
+    raise NotImplemented()
 
   def ttl(self, key: str) -> int | None:
-    raise Exception("Not implemented")
+    raise NotImplemented()
