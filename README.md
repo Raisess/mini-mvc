@@ -4,8 +4,12 @@ Model-View-Controller made easy, keeping it simple.
 
 #### Features:
 
-- PostgreSQL for database integration;
-- Redis for caching;
+- Relational databases integration:
+    - PostgreSQL
+    - SQLite
+- Fast memory access databases:
+    - Redis
+    - Memory caching
 - SMTP client for sending email's;
 - View's and email's templating using `Jinja2`
 
@@ -27,7 +31,8 @@ $ ./src/main.py
 - Configuration ENV's:
     - `SESSION_PERMANENT`: Indicates if the session will live forever, default: `0`;
     - `SESSION_TYPE`: Select the session store type, default: `filesystem`;
-    - `LAZY_LOAD`: When disabled will store all views in the application memory, default: `0`.
+    - `LAZY_LOAD`: When disabled will store all views in the application memory, default: `0`
+    - check `.env.example` file for more variables
 
 ### Generating resources:
 
