@@ -7,6 +7,9 @@ Model-View-Controller made easy, keeping it simple.
 - Relational databases integration:
     - PostgreSQL
     - SQLite
+- No relational databases integration:
+    - Firestore
+    - MongoDB (WIP)
 - Fast memory access databases:
     - Redis
     - Memory caching
