@@ -2,11 +2,7 @@ import sqlite3
 
 from __core.env import Env, InvalidEnvironmentException
 from __core.plugins.database.database import Database
-
-class NotConnectedException(Exception):
-  def __init__(self):
-    super().__init__("SQLite database not connected")
-
+from __core.plugins.exceptions import NotConnectedException
 
 class SQLite(Database):
   __CONN = None
@@ -24,7 +20,7 @@ class SQLite(Database):
 
   def void_query(self, sql: str, values: dict[str, any] | tuple[any] | None = []) -> None:
     if not SQLite.__CONN:
-      raise NotConnectedException()
+      raise NotConnectedException("SQLite", "USE_SQLITE")
 
     cursor = SQLite.__CONN.cursor()
     cursor.execute(sql, values)
@@ -32,7 +28,7 @@ class SQLite(Database):
 
   def query(self, sql: str, values: dict[str, any] | tuple[any] | None = []) -> list[any]:
     if not SQLite.__CONN:
-      raise NotConnectedException()
+      raise NotConnectedException("SQLite", "USE_SQLITE")
 
     cursor = SQLite.__CONN.cursor()
     result = cursor.execute(sql, values)

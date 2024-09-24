@@ -7,11 +7,7 @@ from redis import Redis as RedisClient
 
 from __core.env import Env, InvalidEnvironmentException
 from __core.plugins.cache.cache import Cache
-
-class NotConnectedException(Exception):
-  def __init__(self):
-    super().__init__("Redis cache not connected")
-
+from __core.plugins.exceptions import NotConnectedException
 
 class Redis(Cache):
   __CLIENT: RedisClient = None
@@ -38,7 +34,7 @@ class Redis(Cache):
   @staticmethod
   def GetClient() -> RedisClient:
     if not Redis.__CLIENT:
-      raise NotConnectedException()
+      raise NotConnectedException("Redis", "USE_REDIS")
 
     return Redis.__CLIENT
 

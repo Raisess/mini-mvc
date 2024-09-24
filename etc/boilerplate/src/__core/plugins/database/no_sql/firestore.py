@@ -9,11 +9,7 @@ from google.cloud.firestore import DocumentReference, DocumentSnapshot
 
 from __core.env import Env, InvalidEnvironmentException
 from __core.plugins.database.no_sql.database import NoSQLDatabase
-
-class NotConnectedException(Exception):
-  def __init__(self):
-    super.__init__("Firestore database not connected")
-
+from __core.plugins.exceptions import NotConnectedException
 
 class Firestore(NoSQLDatabase):
   __CLIENT: Client = None
@@ -33,6 +29,6 @@ class Firestore(NoSQLDatabase):
 
   def expose(self) -> Client:
     if not Firestore.__CLIENT:
-      raise NotConnectedException()
+      raise NotConnectedException("Firestore", "USE_FIRESTORE")
 
     return Firestore.__CLIENT

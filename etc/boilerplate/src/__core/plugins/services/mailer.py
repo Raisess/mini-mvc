@@ -4,6 +4,7 @@ from smtplib import SMTP
 from jinja2 import Template
 
 from __core.env import Env, InvalidEnvironmentException
+from __core.plugins.exceptions import NotConnectedException
 
 class Mailer:
   __CLIENT: SMTP = None
@@ -34,7 +35,7 @@ class Mailer:
 
   def send(self, template: str, to: str, subject: str, data: dict = {}) -> None:
     if not Mailer.__CLIENT:
-      raise Exception("SMTP Client not initialized, check USE_MAILER env")
+      raise NotConnectedException("Mailer (SMTP Client)", "USE_MAILER")
 
     message = MIMEMultipart()
     message["Subject"] = subject

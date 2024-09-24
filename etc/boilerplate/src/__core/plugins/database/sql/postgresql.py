@@ -6,11 +6,7 @@ from postgres import Postgres
 
 from __core.env import Env, InvalidEnvironmentException
 from __core.plugins.database.database import Database
-
-class NotConnectedException(Exception):
-  def __init__(self):
-    super().__init__("PostgreSQL database not connected")
-
+from __core.plugins.exceptions import NotConnectedException
 
 class PostgreSQL(Database):
   __CONN: Postgres = None
@@ -45,12 +41,12 @@ class PostgreSQL(Database):
 
   def void_query(self, sql: str, values: dict[str, any] | tuple[any] | None = None) -> None:
     if not PostgreSQL.__CONN:
-      raise NotConnectedException()
+      raise NotConnectedException("PostgreSQL", "USE_POSTGRES")
 
     PostgreSQL.__CONN.run(sql, vaules)
 
   def query(self, sql: str, values: dict[str, any] | tuple[any] | None = None) -> list[any]:
     if not PostgreSQL.__CONN:
-      raise NotConnectedException()
+      raise NotConnectedException("PostgreSQL", "USE_POSTGRES")
 
     return PostgreSQL.__CONN.all(sql, values)
