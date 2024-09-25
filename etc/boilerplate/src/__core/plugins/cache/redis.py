@@ -32,14 +32,14 @@ class Redis(Cache):
     )
 
   @staticmethod
-  def GetClient() -> RedisClient:
+  def __GetClient() -> RedisClient:
     if not Redis.__CLIENT:
       raise NotConnectedException("Redis", "USE_REDIS")
 
     return Redis.__CLIENT
 
   def write(self, key: str, value: str, ttl: int = None) -> None:
-    client = Redis.GetClient()
+    client = Redis.__GetClient()
     if not client.set(key, value, ex=ttl):
       raise Exception(f"Failed to set {key} in cache")
 
@@ -47,11 +47,11 @@ class Redis(Cache):
     self.write(key, json.dumps(value), ttl)
 
   def scan(self, pattern: str) -> list[str]:
-    client = Redis.GetClient()
+    client = Redis.__GetClient()
     return [key for key in client.scan_iter(pattern)]
 
   def read(self, key: str) -> str | None:
-    client = Redis.GetClient()
+    client = Redis.__GetClient()
     return client.get(key)
 
   def read_json(self, key: str) -> any:
@@ -62,9 +62,9 @@ class Redis(Cache):
     return json.loads(data)
 
   def remove(self, keys: list[str]) -> int:
-    client = Redis.GetClient()
+    client = Redis.__GetClient()
     return client.delete(keys)
 
   def ttl(self, key: str) -> int | None:
-    client = Redis.GetClient()
+    client = Redis.__GetClient()
     client.ttl(key)
