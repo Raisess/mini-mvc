@@ -5,9 +5,9 @@
 import json
 from redis import Redis as RedisClient
 
-from __core.env import Env, InvalidEnvironmentException
+from __core.env import Env
 from __core.plugins.cache.cache import Cache
-from __core.plugins.exceptions import NotConnectedException
+from __core.plugins.exceptions import InvalidEnvironmentException, NotConnectedException
 
 class Redis(Cache):
   __CLIENT: RedisClient = None

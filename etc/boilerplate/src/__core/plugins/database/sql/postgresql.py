@@ -4,11 +4,11 @@
 
 from postgres import Postgres
 
-from __core.env import Env, InvalidEnvironmentException
-from __core.plugins.database.database import Database
-from __core.plugins.exceptions import NotConnectedException
+from __core.env import Env
+from __core.plugins.database.sql.database import SQLDatabase
+from __core.plugins.exceptions import InvalidEnvironmentException, NotConnectedException
 
-class PostgreSQL(Database):
+class PostgreSQL(SQLDatabase):
   __CONN: Postgres = None
 
   @staticmethod
