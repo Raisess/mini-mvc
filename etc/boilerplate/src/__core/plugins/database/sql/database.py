@@ -1,4 +1,4 @@
-class Database:
+class SQLDatabase:
   def void_query(self, sql: str, values: dict[str, any] | tuple[any] | None = None) -> None:
     raise NotImplemented()
 

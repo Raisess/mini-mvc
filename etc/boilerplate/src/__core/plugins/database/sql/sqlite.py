@@ -1,10 +1,10 @@
 import sqlite3
 
-from __core.env import Env, InvalidEnvironmentException
-from __core.plugins.database.database import Database
-from __core.plugins.exceptions import NotConnectedException
+from __core.env import Env
+from __core.plugins.database.sql.database import SQLDatabase
+from __core.plugins.exceptions import InvalidEnvironmentException, NotConnectedException
 
-class SQLite(Database):
+class SQLite(SQLDatabase):
   __CONN = None
 
   @staticmethod
