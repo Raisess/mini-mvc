@@ -2,7 +2,7 @@
 # `requirements.txt`
 # @REFERENCE: https://github.com/googleapis/google-auth-library-python-oauthlib
 
-from google.auth.transport.requests import AuthorizedSession
+from google.auth.credentials import Credentials
 from google_auth_oauthlib.flow import Flow, InstalledAppFlow
 
 from __core.env import Env
@@ -45,19 +45,19 @@ class GoogleOAuth2:
     )
     GoogleOAuth2.__FLOW.redirect_uri = redirect_uri
 
-  def get_authorization_url(self) -> (str, any):
+  def get_authorization_url(self) -> str:
     if not GoogleOAuth2.__FLOW:
       raise NotConnectedException("GoogleOAuth2", "USE_GOOGLE_OAUTH2")
 
-    authorization_url, state = GoogleOAuth2.__FLOW.authorization_url(
-      access_type='offline',
-      prompt='select_account'
+    authorization_url = GoogleOAuth2.__FLOW.authorization_url(
+      access_type="offline",
+      prompt="select_account"
     )
-    return (authorization_url, state)
+    return authorization_url
 
-  def get_authorized_session(self, authorization_code: str) -> AuthorizedSession:
+  def get_authorized_credentials(self, authorization_code: str) -> Credentials:
     if not GoogleOAuth2.__FLOW:
       raise NotConnectedException("GoogleOAuth2", "USE_GOOGLE_OAUTH2")
 
     GoogleOAuth2.__FLOW.fetch_token(code=authorization_code)
-    return GoogleOAuth2.__FLOW.authorized_session()
+    return GoogleOAuth2.__FLOW.credentials
