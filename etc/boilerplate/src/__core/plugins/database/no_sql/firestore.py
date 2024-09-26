@@ -6,8 +6,8 @@ from firebase_admin import credentials, initialize_app, firestore
 from google.cloud.firestore import Client, FieldFilter
 
 from __core.env import Env
+from __core.exceptions import InvalidEnvironmentException, NotConnectedException
 from __core.plugins.database.no_sql.database import NoSQLDatabase
-from __core.plugins.exceptions import InvalidEnvironmentException, NotConnectedException
 
 class Firestore(NoSQLDatabase):
   __CLIENT: Client = None

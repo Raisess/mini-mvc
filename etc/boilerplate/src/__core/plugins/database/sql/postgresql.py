@@ -5,8 +5,8 @@
 from postgres import Postgres
 
 from __core.env import Env
+from __core.exceptions import InvalidEnvironmentException, NotConnectedException
 from __core.plugins.database.sql.database import SQLDatabase
-from __core.plugins.exceptions import InvalidEnvironmentException, NotConnectedException
 
 class PostgreSQL(SQLDatabase):
   __CONN: Postgres = None

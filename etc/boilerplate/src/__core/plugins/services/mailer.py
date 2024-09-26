@@ -4,7 +4,7 @@ from smtplib import SMTP
 from jinja2 import Template
 
 from __core.env import Env, InvalidEnvironmentException
-from __core.plugins.exceptions import NotConnectedException
+from __core.exceptions import InvalidEnvironmentException
 
 class Mailer:
   __CLIENT: SMTP = None

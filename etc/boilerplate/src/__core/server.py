@@ -9,12 +9,22 @@ from __core.view import View
 
 # @NOTE: Each plugin needs to have an static `Init` method
 PLUGINS = [
+  # Services
   ("USE_MAILER", "__core.plugins.services.mailer", "Mailer"),
+
+  # SQL Databases
   ("USE_POSTGRES", "__core.plugins.database.sql.postgresql", "PostgreSQL"),
   ("USE_SQLITE", "__core.plugins.database.sql.sqlite", "SQLite"),
+
+  # NOSQL Databases
   ("USE_FIRESTORE", "__core.plugins.database.no_sql.firestore", "Firestore"),
+
+  # Cache
   ("USE_REDIS", "__core.plugins.cache.redis", "Redis"),
   ("USE_MEMORY", "__core.plugins.cache.memory", "Memory"),
+
+  # Auth
+  ("USE_GOOGLE_OAUTH2", "__core.plugins.auth.google_oauth2", "GoogleOAuth2"),
 ]
 
 class Server:
