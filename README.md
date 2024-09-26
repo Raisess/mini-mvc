@@ -4,17 +4,20 @@ Model-View-Controller made easy, keeping it simple.
 
 #### Features:
 
+- OAuth2 authentication plugin:
+    - Google
 - Relational databases integration:
     - PostgreSQL
     - SQLite
 - No relational databases integration:
     - Firestore
-    - MongoDB (WIP)
 - Fast memory access databases:
     - Redis
     - Memory caching
 - SMTP client for sending email's;
 - View's and email's templating using `Jinja2`
+
+Check all our plugins [here](/docs/PLUGINS.md).
 
 ### Installing the CLI:
 
@@ -32,6 +35,7 @@ $ ./src/main.py
 ```
 
 - Configuration ENV's:
+    - `USE_SESSION`: Enable the application to store sessions data;
     - `SESSION_PERMANENT`: Indicates if the session will live forever, default: `0`;
     - `SESSION_TYPE`: Select the session store type, default: `filesystem`;
     - `LAZY_LOAD`: When disabled will store all views in the application memory, default: `0`
