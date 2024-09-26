@@ -57,7 +57,11 @@ class AuthController(Controller):
 
         auth_provider = GoogleOAuth2()
         credentials = auth_provider.get_authorized_credentials(authorization_code)
-        self.session_set("google_oauth2_token", credentials.token)
+        self.session().add("google_oauth2_token", credentials.token)
+        self.redirect("/")
+
+    def logout(self) -> None:
+        self.session().clear()
         self.redirect("/")
 
 
@@ -75,4 +79,9 @@ def auth():
 @routes.get("/auth/callback")
 def auth_callback():
     return controller.callback()
+
+
+@routes.get("/auth/logout")
+def auth_callback():
+    return controller.logout()
 ```

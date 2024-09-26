@@ -4,7 +4,21 @@ from typing import Callable
 
 from __core.view import View
 
-class Request:
+class __Session:
+  def add(self, key: str, value: str) -> None:
+    session[key] = value
+
+  def get(self, key: str) -> str | None:
+    return session.get(key)
+
+  def pop(self, key: str) -> None:
+    session.pop(key, None)
+
+  def clear(self) -> None:
+    session.clear()
+
+
+class __Request:
   def form(self) -> dict:
     return request.form
 
@@ -23,20 +37,14 @@ class Controller:
   def router(self) -> Blueprint:
     return Blueprint(self.__name, self.__import_name)
 
-  def session_set(self, key: str, value: str) -> None:
-    session[key] = value
-
-  def session_get(self, key: str) -> str | None:
-    return session.get(key)
-
-  def session_pop(self, key: str) -> None:
-    session.pop(key, None)
-
   def redirect(path: str) -> None:
     redirect(path)
 
-  def request(self) -> Request:
-    return Request()
+  def session(self) -> __Session:
+    return __Session()
+
+  def request(self) -> __Request:
+    return __Request()
 
   def render(self, view: View | str, data: dict = {}) -> str:
     is_view = isinstance(view, View)
