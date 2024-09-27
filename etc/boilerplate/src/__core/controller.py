@@ -4,32 +4,32 @@ from typing import Callable
 
 from __core.view import View
 
-class __Session:
-  def add(self, key: str, value: str) -> None:
-    session[key] = value
-
-  def get(self, key: str) -> str | None:
-    return session.get(key)
-
-  def pop(self, key: str) -> None:
-    session.pop(key, None)
-
-  def clear(self) -> None:
-    session.clear()
-
-
-class __Request:
-  def form(self) -> dict:
-    return request.form
-
-  def args(self) -> dict:
-    return request.args
-
-  def method(self) -> str:
-    return request.method
-
-
 class Controller:
+  class __Session:
+    def add(self, key: str, value: str) -> None:
+      session[key] = value
+
+    def get(self, key: str) -> str | None:
+      return session.get(key)
+
+    def pop(self, key: str) -> None:
+      session.pop(key, None)
+
+    def clear(self) -> None:
+      session.clear()
+
+
+  class __Request:
+    def form(self) -> dict:
+      return request.form
+
+    def args(self) -> dict:
+      return request.args
+
+    def method(self) -> str:
+      return request.method
+
+
   def __init__(self, name: str, import_name: str):
     self.__name = name
     self.__import_name = import_name
