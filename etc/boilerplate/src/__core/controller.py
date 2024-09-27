@@ -41,10 +41,10 @@ class Controller:
     return redirect(path)
 
   def session(self) -> __Session:
-    return __Session()
+    return Controller.__Session()
 
   def request(self) -> __Request:
-    return __Request()
+    return Controller.__Request()
 
   def render(self, view: View | str, data: dict = {}) -> str:
     is_view = isinstance(view, View)
