@@ -19,4 +19,5 @@ class Env:
 
   @staticmethod
   def IsEnabled(key: str) -> bool:
-    Env.Get(key) == "1"
+    value = Env.Get(key)
+    return value == "1" or value == 1
