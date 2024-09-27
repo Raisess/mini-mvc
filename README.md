@@ -41,6 +41,15 @@ $ ./src/main.py
     - `LAZY_LOAD`: When disabled will store all views in the application memory, default: `0`
     - check `.env.example` file for more variables
 
+### Update the `__core` of my project:
+
+When you run this script your `src/__core` will be update with the latest `mini-mvc`
+version:
+
+```shell
+$ ./scripts/update.sh
+```
+
 ### Generating resources:
 
 ```shell
