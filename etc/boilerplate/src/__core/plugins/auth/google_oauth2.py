@@ -49,7 +49,7 @@ class GoogleOAuth2:
     if not GoogleOAuth2.__FLOW:
       raise NotConnectedException("GoogleOAuth2", "USE_GOOGLE_OAUTH2")
 
-    authorization_url = GoogleOAuth2.__FLOW.authorization_url(
+    (authorization_url, _state) = GoogleOAuth2.__FLOW.authorization_url(
       access_type="offline",
       prompt="select_account"
     )
