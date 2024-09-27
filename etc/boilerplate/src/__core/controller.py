@@ -37,8 +37,8 @@ class Controller:
   def router(self) -> Blueprint:
     return Blueprint(self.__name, self.__import_name)
 
-  def redirect(path: str) -> None:
-    redirect(path)
+  def redirect(self, path: str) -> None:
+    return redirect(path)
 
   def session(self) -> __Session:
     return __Session()

@@ -49,7 +49,7 @@ class AuthController(Controller):
     def auth(self) -> None:
         auth_provider = GoogleOAuth2()
         authorization_url = auth_provider.get_authorization_url()
-        self.redirect(authorization_url)
+        return self.redirect(authorization_url)
 
     def callback(self) -> None:
         arguments = self.request().args()
@@ -58,11 +58,11 @@ class AuthController(Controller):
         auth_provider = GoogleOAuth2()
         credentials = auth_provider.get_authorized_credentials(authorization_code)
         self.session().add("google_oauth2_token", credentials.token)
-        self.redirect("/")
+        return self.redirect("/")
 
     def logout(self) -> None:
         self.session().clear()
-        self.redirect("/")
+        return self.redirect("/")
 
 
 # src/routes/auth_routes.py
