@@ -43,7 +43,7 @@ class PostgreSQL(SQLDatabase):
     if not PostgreSQL.__CONN:
       raise NotConnectedException("PostgreSQL", "USE_POSTGRES")
 
-    PostgreSQL.__CONN.run(sql, vaules)
+    PostgreSQL.__CONN.run(sql, values)
 
   def query(self, sql: str, values: dict[str, any] | tuple[any] | None = None) -> list[any]:
     if not PostgreSQL.__CONN:
