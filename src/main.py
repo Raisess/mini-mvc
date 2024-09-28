@@ -15,7 +15,6 @@ class Init(Command):
   def handle(self, args: list[str]) -> None:
     name = args[0]
     shutil.copytree("/usr/local/etc/mini-mvc/boilerplate", f"./{name}")
-    os.system(f"python -m venv ./{name}")
     os.system(f"cd ./{name} && ./scripts/setup.sh")
     print(f"> Created new project {name}!")
 

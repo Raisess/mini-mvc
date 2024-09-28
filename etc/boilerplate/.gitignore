@@ -1,7 +1,3 @@
-bin/
-include/
-lib/
 __pycache__/
 flask_session/
-lib64
 .env
