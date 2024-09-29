@@ -48,7 +48,7 @@ from __core.plugins.auth import GoogleOAuth2
 class AuthController(Controller):
     def auth(self) -> None:
         auth_provider = GoogleOAuth2()
-        authorization_url = auth_provider.get_authorization_url()
+        authorization_url = auth_provider.get_authorization_url("http://localhost:8080/auth/callback")
         return self.redirect(authorization_url)
 
     def callback(self) -> None:

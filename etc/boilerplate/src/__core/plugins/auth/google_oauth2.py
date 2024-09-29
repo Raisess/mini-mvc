@@ -24,10 +24,6 @@ class GoogleOAuth2:
     if not client_id:
       raise InvalidEnvironmentException("GOOGLE_OAUTH2_CLIENT_SECRET")
 
-    redirect_uri = Env.Get("GOOGLE_OAUTH2_REDIRECT_URI")
-    if not client_id:
-      raise InvalidEnvironmentException("GOOGLE_OAUTH2_REDIRECT_URI")
-
     scopes = Env.Get("GOOGLE_OAUTH2_SCOPES")
     if not scopes:
       raise InvalidEnvironmentException("GOOGLE_OAUTH2_SCOPES")
@@ -43,12 +39,12 @@ class GoogleOAuth2:
       },
       scopes=scopes
     )
-    GoogleOAuth2.__FLOW.redirect_uri = redirect_uri
 
-  def get_authorization_url(self) -> str:
+  def get_authorization_url(self, redirect_uri: str) -> str:
     if not GoogleOAuth2.__FLOW:
       raise NotConnectedException("GoogleOAuth2", "USE_GOOGLE_OAUTH2")
 
+    GoogleOAuth2.__FLOW.redirect_uri = redirect_uri
     (authorization_url, _state) = GoogleOAuth2.__FLOW.authorization_url(
       access_type="offline",
       prompt="select_account"
