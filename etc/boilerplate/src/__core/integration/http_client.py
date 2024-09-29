@@ -1,4 +1,4 @@
-from urllib.parse import urlencode
+import json
 from urllib.request import HTTPError, Request, urlopen
 
 Body = dict[str, any]
@@ -33,7 +33,7 @@ class HttpClient:
   ) -> Response:
     request = Request(
       url=f"{self.__host}/{path}",
-      data=urlencode(body).encode() if body else None,
+      data=json.dumps(body).encode() if body else None,
       headers=headers,
       method=method,
     )
