@@ -9,12 +9,19 @@ from __core.env import Env
 from __core.exceptions import InvalidEnvironmentException, NotConnectedException
 
 class GoogleOAuth2:
-  __FLOW: InstalledAppFlow = None
+  __STARTED = False
 
   @staticmethod
   def Init():
-    if GoogleOAuth2.__FLOW:
+    if GoogleOAuth2.__STARTED:
       return
+
+    GoogleOAuth2.__STARTED = True
+
+  @staticmethod
+  def __GetClient(state: str = None) -> InstalledAppFlow:
+    if not GoogleOAuth2.__STARTED:
+      raise NotConnectedException("GoogleOAuth2", "USE_GOOGLE_OAUTH2")
 
     client_id = Env.Get("GOOGLE_OAUTH2_CLIENT_ID")
     if not client_id:
@@ -28,7 +35,7 @@ class GoogleOAuth2:
     if not scopes:
       raise InvalidEnvironmentException("GOOGLE_OAUTH2_SCOPES")
 
-    GoogleOAuth2.__FLOW = InstalledAppFlow.from_client_config(
+    return InstalledAppFlow.from_client_config(
       client_config={
         "web": {
           "client_id": client_id,
@@ -37,23 +44,21 @@ class GoogleOAuth2:
           "token_uri": "https://accounts.google.com/o/oauth2/token"
         },
       },
-      scopes=scopes
+      scopes=scopes,
+      state=state
     )
 
-  def get_authorization_url(self, redirect_uri: str) -> str:
-    if not GoogleOAuth2.__FLOW:
-      raise NotConnectedException("GoogleOAuth2", "USE_GOOGLE_OAUTH2")
-
-    GoogleOAuth2.__FLOW.redirect_uri = redirect_uri
-    (authorization_url, _state) = GoogleOAuth2.__FLOW.authorization_url(
+  def get_authorization_url(self, redirect_uri: str, state: str = None) -> str:
+    client = GoogleOAuth2.__GetClient(state)
+    client.redirect_uri = redirect_uri
+    (authorization_url, _state) = client.authorization_url(
       access_type="offline",
       prompt="select_account"
     )
     return authorization_url
 
-  def get_authorized_credentials(self, authorization_code: str) -> Credentials:
-    if not GoogleOAuth2.__FLOW:
-      raise NotConnectedException("GoogleOAuth2", "USE_GOOGLE_OAUTH2")
-
-    GoogleOAuth2.__FLOW.fetch_token(code=authorization_code)
-    return GoogleOAuth2.__FLOW.credentials
+  def get_authorized_credentials(self, from_uri: str, authorization_code: str) -> Credentials:
+    client = GoogleOAuth2.__GetClient()
+    client.redirect_uri = from_uri
+    client.fetch_token(code=authorization_code)
+    return client.credentials

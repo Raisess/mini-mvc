@@ -45,10 +45,12 @@ controller.
 from __core.controller import Controller
 from __core.plugins.auth import GoogleOAuth2
 
+REDIRECT_URI = "http://localhost:8080/auth/callback"
+
 class AuthController(Controller):
     def auth(self) -> None:
         auth_provider = GoogleOAuth2()
-        authorization_url = auth_provider.get_authorization_url("http://localhost:8080/auth/callback")
+        authorization_url = auth_provider.get_authorization_url(REDIRECT_URI)
         return self.redirect(authorization_url)
 
     def callback(self) -> None:
@@ -56,7 +58,7 @@ class AuthController(Controller):
         authorization_code = arguments.get("code") 
 
         auth_provider = GoogleOAuth2()
-        credentials = auth_provider.get_authorized_credentials(authorization_code)
+        credentials = auth_provider.get_authorized_credentials(REDIRECT_URI, authorization_code)
         self.session().add("google_oauth2_token", credentials.token)
         return self.redirect("/")
 
