@@ -4,7 +4,7 @@ class Repository:
   def create(self, data: Model) -> str:
     raise NotImplemented()
 
-  def update(self, id: str, new_data: Model) -> None:
+  def update(self, id: str, new_data: dict) -> None:
     raise NotImplemented()
 
   def find_one(self, id: str) -> Model | None:
