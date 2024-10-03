@@ -67,4 +67,4 @@ class Redis(Cache):
 
   def ttl(self, key: str) -> int | None:
     client = Redis.__GetClient()
-    client.ttl(key)
+    return client.ttl(key)
