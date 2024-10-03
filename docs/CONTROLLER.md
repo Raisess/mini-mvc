@@ -25,6 +25,9 @@ The base methods are simple:
 
 ```python
 # Creates a router exposing the http methods decorator
+from app.controllers import UserTasksController
+
+controller = UserTasksController("user_tasks", __name__)
 routes = controller.router()
 
 @routes.get("/")

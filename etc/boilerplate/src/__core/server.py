@@ -1,3 +1,4 @@
+import importlib
 import os
 import sys
 import traceback
@@ -37,14 +38,9 @@ class Server:
     if not Env.IsEnabled("LAZY_LOAD"):
       View.Init(use_compression=Env.IsEnabled("ENABLE_VIEW_COMPRESSION"))
 
-    for plugin in PLUGINS:
-      if Env.IsEnabled(plugin[0]):
-        module = getattr(__import__(plugin[1]), "plugins")
-        attrs = plugin[1].split(".")[2:]
-        for attr in attrs:
-          module = getattr(module, attr)
-
-        module = getattr(module, plugin[2])
+    for (flag, path, name) in PLUGINS:
+      if Env.IsEnabled(flag):
+        module = getattr(importlib.import_module(path), name)
         module.Init()
 
 
@@ -55,6 +51,7 @@ class Server:
       app.config["SESSION_PERMANENT"] = Env.IsEnabled("SESSION_PERMANENT")
       app.config["SESSION_TYPE"] = Env.Get("SESSION_TYPE", "filesystem")
       if app.config["SESSION_TYPE"] == "redis":
+        from __core.plugins.cache.redis import Redis
         app.config["SESSION_REDIS"] = Redis.GetClient()
 
       Session(app)

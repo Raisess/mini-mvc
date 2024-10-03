@@ -2,9 +2,6 @@
 # `requirements.txt`
 # @REFERENCE: https://github.com/googleapis/google-auth-library-python-oauthlib
 
-from google.auth.credentials import Credentials
-from google_auth_oauthlib.flow import Flow, InstalledAppFlow
-
 from __core.env import Env
 from __core.exceptions import InvalidEnvironmentException, NotConnectedException
 
@@ -19,7 +16,7 @@ class GoogleOAuth2:
     GoogleOAuth2.__STARTED = True
 
   @staticmethod
-  def __GetClient(state: str = None) -> InstalledAppFlow:
+  def __GetClient(state: str = None) -> any:
     if not GoogleOAuth2.__STARTED:
       raise NotConnectedException("GoogleOAuth2", "USE_GOOGLE_OAUTH2")
 
@@ -35,6 +32,7 @@ class GoogleOAuth2:
     if not scopes:
       raise InvalidEnvironmentException("GOOGLE_OAUTH2_SCOPES")
 
+    from google_auth_oauthlib.flow import InstalledAppFlow
     return InstalledAppFlow.from_client_config(
       client_config={
         "web": {
@@ -49,7 +47,9 @@ class GoogleOAuth2:
     )
 
   def get_authorization_url(self, redirect_uri: str, state: str = None) -> str:
-    client = GoogleOAuth2.__GetClient(state)
+    from google_auth_oauthlib.flow import InstalledAppFlow
+
+    client: InstalledAppFlow = GoogleOAuth2.__GetClient(state)
     client.redirect_uri = redirect_uri
     (authorization_url, _state) = client.authorization_url(
       access_type="offline",
@@ -57,8 +57,10 @@ class GoogleOAuth2:
     )
     return authorization_url
 
-  def get_authorized_credentials(self, from_uri: str, authorization_code: str) -> Credentials:
-    client = GoogleOAuth2.__GetClient()
+  def get_authorized_token(self, from_uri: str, authorization_code: str) -> str:
+    from google_auth_oauthlib.flow import InstalledAppFlow
+
+    client: InstalledAppFlow = GoogleOAuth2.__GetClient()
     client.redirect_uri = from_uri
     client.fetch_token(code=authorization_code)
-    return client.credentials
+    return client.credentials.token

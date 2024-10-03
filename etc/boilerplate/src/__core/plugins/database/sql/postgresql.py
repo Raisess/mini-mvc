@@ -2,14 +2,12 @@
 # `requirements.txt`
 # @REFERENCE: https://github.com/liberapay/postgres.py
 
-from postgres import Postgres
-
 from __core.env import Env
 from __core.exceptions import InvalidEnvironmentException, NotConnectedException
 from __core.plugins.database.sql.database import SQLDatabase
 
 class PostgreSQL(SQLDatabase):
-  __CONN: Postgres = None
+  __CONN = None
 
   @staticmethod
   def Init():
@@ -36,6 +34,7 @@ class PostgreSQL(SQLDatabase):
     if not dbname:
       raise InvalidEnvironmentException("POSTGRES_DBNAME")
 
+    from postgres import Postgres
     url = f"postgresql://{username}:{password}@{hostname}:{port}/{dbname}"
     PostgreSQL.__CONN = Postgres(url=url)
 

@@ -58,8 +58,8 @@ class AuthController(Controller):
         authorization_code = arguments.get("code") 
 
         auth_provider = GoogleOAuth2()
-        credentials = auth_provider.get_authorized_credentials(REDIRECT_URI, authorization_code)
-        self.session().add("google_oauth2_token", credentials.token)
+        token = auth_provider.get_authorized_token(REDIRECT_URI, authorization_code)
+        self.session().add("google_oauth2_token", token)
         return self.redirect("/")
 
     def logout(self) -> None:

@@ -3,14 +3,13 @@
 # @REFERENCE: https://github.com/redis/redis-py
 
 import json
-from redis import Redis as RedisClient
 
 from __core.env import Env
 from __core.exceptions import InvalidEnvironmentException, NotConnectedException
 from __core.plugins.cache.cache import Cache
 
 class Redis(Cache):
-  __CLIENT: RedisClient = None
+  __CLIENT = None
 
   @staticmethod
   def Init():
@@ -25,6 +24,7 @@ class Redis(Cache):
     if not port:
       raise InvalidEnvironmentException("REDIS_PORT")
 
+    from redis import Redis as RedisClient
     Redis.__CLIENT = RedisClient(
       host=host,
       port=int(port),
@@ -32,7 +32,7 @@ class Redis(Cache):
     )
 
   @staticmethod
-  def __GetClient() -> RedisClient:
+  def GetClient() -> any:
     if not Redis.__CLIENT:
       raise NotConnectedException("Redis", "USE_REDIS")
 
