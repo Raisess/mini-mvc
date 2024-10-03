@@ -1,6 +1,7 @@
 from time import sleep, time
 from threading import Lock, Thread
 
+from __core.exceptions import NotConnectedException
 from __core.plugins.cache.cache import Cache
 
 WORKER_INTERVAL_SECS = 0.100
@@ -19,10 +20,16 @@ class Memory(Cache):
     Memory.__LOCK = Lock()
     Thread(target=Memory.__Worker, daemon=True).start()
 
+  @staticmethod
+  def __ValidateStart() -> None:
+    if not Memory.__STARTED:
+      raise NotConnectedException("Memory", "USE_MEMORY")
+
   def write(self, key: str, value: str, ttl: int = None) -> None:
     return self.write_json(key, value, ttl)
 
   def write_json(self, key: str, value: any, ttl: int = None) -> None:
+    Memory.__ValidateStart()
     Memory.__DATA[key] = value
     if ttl and ttl > 0:
       Memory.__TTL[key] = (time(), ttl)
@@ -31,17 +38,21 @@ class Memory(Cache):
     return self.read_json(key)
 
   def read_json(self, key: str) -> any:
+    Memory.__ValidateStart()
     return Memory.__DATA.get(key)
 
   def remove(self, keys: list[str]) -> int:
+    Memory.__ValidateStart()
     for key in keys:
       Memory.__DATA.pop(key)
       Memory.__TTL.pop(key)
 
   def ttl(self, key: str) -> int | None:
+    Memory.__ValidateStart()
     ttl = Memory.__TTL.get(key)
     return ttl[1] if ttl else None
 
+  @staticmethod
   def __Flush() -> None:
     ttl_entries = Memory.__TTL.items()
     if len(ttl_entries) == 0:
@@ -58,6 +69,7 @@ class Memory(Cache):
       for key in to_delete_keys:
         Memory.__TTL.pop(key)
 
+  @staticmethod
   def __Worker() -> None:
     while True:
       Memory.__Flush()
