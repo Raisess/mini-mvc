@@ -19,6 +19,7 @@ class Memory(Cache):
 
     Memory.__LOCK = Lock()
     Thread(target=Memory.__Worker, daemon=True).start()
+    Memory.__STARTED = True
 
   @staticmethod
   def __ValidateStart() -> None:
