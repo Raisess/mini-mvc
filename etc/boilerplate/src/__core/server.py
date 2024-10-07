@@ -6,6 +6,7 @@ import traceback
 from flask import Flask
 
 from __core.env import Env
+from __core.logger import Logger
 from __core.view import View
 
 # @NOTE: Each plugin needs to have an static `Init` method
@@ -56,13 +57,13 @@ class Server:
 
       Session(app)
 
+    render_exception_stack = Env.IsEnabled("RENDER_EXCEPTION_STACK")
     @app.errorhandler(Exception)
-    def handle_exception(e: Exception):
-      print(e.__str__())
-      print("".join(traceback.format_tb(e.__traceback__)))
+    def handle_exception(ex: Exception):
+      Logger.Error("Internal Server Error", ex)
       return View("error").render({
-        "reason": e.__str__(),
-        "stacktrace": "".join(traceback.format_tb(e.__traceback__)),
+        "reason": ex.__str__(),
+        "stacktrace": "".join(traceback.format_tb(ex.__traceback__)) if render_exception_stack else None,
       })
 
 

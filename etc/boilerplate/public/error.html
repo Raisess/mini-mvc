@@ -8,8 +8,10 @@
   <body>
     <h2>Error: {{ reason }}</h2>
     <hr />
-    <code style="white-space: pre-line;">
-      <b>{{stacktrace}}</b>
-    </code>
+    {% if stacktrace %}
+      <code style="white-space: pre-line;">
+        <b>{{stacktrace}}</b>
+      </code>
+    {% endif %}
   </body>
 </html>
