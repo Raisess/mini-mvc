@@ -29,7 +29,7 @@ class Generate(Command):
 
   def handle(self, args: list[str]) -> None:
     ftype = args[0]
-    ["controller", "model", "repository", "view"].index(ftype)
+    ["controller", "model", "repository", "view", "job"].index(ftype)
     ftype_path = "repositories" if ftype == "repository" else f"{ftype}s"
 
     src_content = ""
@@ -62,6 +62,7 @@ class Generate(Command):
       dest.write(src_content.replace("{{name}}", class_name))
 
     with open(f"./src/app/{ftype_path}/__init__.py", "a") as init:
+      init.flush()
       class_name = f"{class_name}{ftype.capitalize()}"
       if len(folders) > 0:
         init.write(f"\nfrom app.{ftype_path}.{'.'.join(folders)}.{name} import {class_name}")

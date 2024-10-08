@@ -73,4 +73,11 @@ class Server:
         bp = getattr(getattr(__import__(f"routes.{file}"), file), "routes")
         app.register_blueprint(bp)
 
+    if Env.IsEnabled("USE_SCHEDULER"):
+      for file in os.listdir("src/scheduler"):
+        if file.endswith(".py"):
+          file = file[:-3]
+          scheduler = getattr(getattr(__import__(f"scheduler.{file}"), file), "scheduler")
+          scheduler.start()
+
     app.run(self.__host, self.__port)

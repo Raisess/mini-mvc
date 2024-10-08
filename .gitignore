@@ -1,4 +1,5 @@
 __pycache__/
+__venv/
 flask_session/
 etc/boilerplate/src/test.py
 .env
