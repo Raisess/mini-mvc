@@ -15,7 +15,7 @@ This will create the file:
 
 class MyTestJob(Job):
   def __init__(self):
-    super().__init__("{{MyTest}}", interval_minutes=1)
+    super().__init__("MyTest", interval_minutes=1) # You also can use crontab parameter to especify execution time
 
   def run(self) -> None:
     pass
@@ -29,6 +29,8 @@ You can create a new scheduler file into the `src/scheduler` folder or just add
 your job to the `src/scheduler/jobs.py` file, just by adding some new lines:
 
 ```python
+# src/app/scheduler/jobs.py
+
 from __core.scheduler import Scheduler
 
 from app.jobs import MyTestJob
