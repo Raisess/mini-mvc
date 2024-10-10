@@ -14,5 +14,6 @@ cp -r ./mini-mvc/etc/boilerplate/scripts $CURRENT_DIR/scripts
 
 cp ./mini-mvc/etc/boilerplate/requirements.core.txt $CURRENT_DIR/requirements.core.txt
 cp ./mini-mvc/etc/boilerplate/.env.example $CURRENT_DIR/.env.example
+cp ./mini-mvc/etc/boilerplate/Dockerfile $CURRENT_DIR/Dockerfile
 
 echo "Done!"
