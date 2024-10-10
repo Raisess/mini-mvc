@@ -34,7 +34,6 @@ class Server:
     self.__port = sys.argv[1] if len(sys.argv) > 1 else port
     self.__host = sys.argv[2] if len(sys.argv) > 2 else host
 
-  def listen(self) -> None:
     Env.Init()
     if not Env.IsEnabled("LAZY_LOAD"):
       View.Init(use_compression=Env.IsEnabled("ENABLE_VIEW_COMPRESSION"))
@@ -80,4 +79,10 @@ class Server:
           scheduler = getattr(getattr(__import__(f"scheduler.{file}"), file), "scheduler")
           scheduler.start()
 
-    app.run(self.__host, self.__port, debug=Env.IsEnabled("DEBUG"))
+    self.__app = app
+
+  def listen(self) -> None:
+    self.__app.run(self.__host, self.__port, debug=Env.IsEnabled("DEBUG"))
+
+  def expose(self) -> Flask:
+    return self.__app
