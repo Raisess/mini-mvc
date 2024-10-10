@@ -80,4 +80,4 @@ class Server:
           scheduler = getattr(getattr(__import__(f"scheduler.{file}"), file), "scheduler")
           scheduler.start()
 
-    app.run(self.__host, self.__port)
+    app.run(self.__host, self.__port, debug=Env.IsEnabled("DEBUG"))

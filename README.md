@@ -35,10 +35,12 @@ $ ./src/main.py
 ```
 
 - Configuration ENV's:
+    - `DEBUG`: Enable flask debug mode;
     - `USE_SESSION`: Enable the application to store sessions data;
     - `SESSION_PERMANENT`: Indicates if the session will live forever, default: `0`;
     - `SESSION_TYPE`: Select the session store type, default: `filesystem`;
     - `LAZY_LOAD`: When disabled will store all views in the application memory, default: `0`
+    - `USE_SCHEDULER`: Enable the schedulers start (only enable this if you are using scheduled jobs);
     - check `.env.example` file for more variables
 
 ### Update the `__core` of my project:
