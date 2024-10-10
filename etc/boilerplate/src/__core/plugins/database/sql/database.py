@@ -36,6 +36,8 @@ class SQLDatabase:
     limit: int = None,
     offset: int = None
   ) -> list[any]:
+    OPERATORS = ["=", "<=", ">=", "<", ">", "<>"]
+
     mapper = self.__mapper()
     _columns = ", ".join(columns) if columns and len(columns) > 0 else "*"
     _where = []
@@ -44,7 +46,10 @@ class SQLDatabase:
         _in = ", ".join([f"{mapper}" for i in value])
         _where.append(f"{key} IN({_in})")
       elif isinstance(value, tuple):
-        _where.append(f"({key} BETWEEN {mapper} AND {mapper})")
+        if value[0] in OPERATORS:
+          _where.append(f"({key} {value[0]} {mapper})")
+        else:
+          _where.append(f"({key} BETWEEN {mapper} AND {mapper})")
       else:
         _where.append(f"{key} = {mapper}")
 
@@ -61,7 +66,10 @@ class SQLDatabase:
     values = []
     for item in where.values():
       if isinstance(item, tuple) or isinstance(item, list):
-        values.extend(item)
+        if item[0] in OPERATORS:
+          values.append(item[1])
+        else:
+          values.extend(item)
       else:
         values.append(item)
 
