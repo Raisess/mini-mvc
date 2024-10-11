@@ -51,18 +51,4 @@ class Controller:
     return (view if is_view else View(view)).render(data)
 
   def json(self, data: dict | str) -> str:
-    return data if isinstance(data, str) else json.dumps(data)
-
-
-class Validation:
-  def __init__(self, message: str, check: Callable[str, bool]):
-    self.message = message
-    self.check = check
-
-
-class Validator:
-  @staticmethod
-  def Validate(value: str, validations: list[Validation]) -> None:
-    for validation in validations:
-      if not validation.check(value):
-        raise Exception(validation.message)
+    return json.dumps(data) if isinstance(data, dict) else data
