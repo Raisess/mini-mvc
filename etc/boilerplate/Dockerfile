@@ -14,4 +14,4 @@ COPY . .
 
 EXPOSE 8080/tcp
 
-CMD ["python", "./src/main.py", "8080", "0.0.0.0"]
+CMD ["python", "./src/wsgi.py", "8080", "0.0.0.0"]

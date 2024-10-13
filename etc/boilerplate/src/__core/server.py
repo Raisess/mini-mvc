@@ -1,4 +1,5 @@
 import importlib
+import logging
 import os
 import sys
 import traceback
@@ -82,7 +83,15 @@ class Server:
     self.__app = app
 
   def listen(self) -> None:
+    logger = self.__app.logger
+    logger.setLevel(Env.Get("LOG_LEVEL"))
     self.__app.run(self.__host, self.__port, debug=Env.IsEnabled("DEBUG"))
 
   def expose(self) -> Flask:
     return self.__app
+
+  def host(self) -> str:
+    return self.__host
+
+  def port(self) -> int:
+    return self.__port
