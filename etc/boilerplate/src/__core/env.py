@@ -4,9 +4,9 @@ class Env:
   __DATA = {}
 
   @staticmethod
-  def Init() -> None:
-    if os.path.isfile(".env"):
-      with open(".env", "r") as file:
+  def Init(filename: str = ".env") -> None:
+    if os.path.isfile(filename):
+      with open(filename, "r") as file:
         lines = file.read().strip().split("\n")
         for line in lines:
           cols = line.strip().split("=")

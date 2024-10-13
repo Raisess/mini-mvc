@@ -35,7 +35,7 @@ class Server:
     self.__port = sys.argv[1] if len(sys.argv) > 1 else port
     self.__host = sys.argv[2] if len(sys.argv) > 2 else host
 
-    Env.Init()
+    Env.Init(".env.production" if Env.IsEnabled("PRODUCTION") else ".env")
     if not Env.IsEnabled("LAZY_LOAD"):
       View.Init(use_compression=Env.IsEnabled("ENABLE_VIEW_COMPRESSION"))
 
