@@ -27,7 +27,12 @@ class Model:
     return Model.FromDict(ModelClass, json.loads(data))
 
   def to_dict(self) -> dict:
-    return self.__dict__
+    dictionare = self.__dict__
+    for key in list(dictionare.keys()):
+      if key.startswith("fk_"):
+        dictionare.pop(key)
+
+    return dictionare
 
   def to_json(self) -> str:
     return json.dumps(
