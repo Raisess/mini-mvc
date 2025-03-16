@@ -53,8 +53,8 @@ class SQLDatabase:
       else:
         _where.append(f"{key} = {mapper}")
 
-    _where = " AND ".join(_where)
-    query = f"SELECT {_columns} FROM {table} WHERE {_where}"
+    _where = "WHERE " + " AND ".join(_where) if len(_where) > 0 else ""
+    query = f"SELECT {_columns} FROM {table} {_where}"
     if order_by:
       _order_by = ", ".join([f"{key} {value}" for (key, value) in order_by.items()])
       query += f" ORDER BY {_order_by}"
