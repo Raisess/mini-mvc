@@ -2,7 +2,7 @@ class SQLDatabase:
   def void_query(self, sql: str, values: dict[str, any] | tuple[any] | None = None) -> None:
     raise NotImplemented()
 
-  def query(self, sql: str, values: dict[str, any] | tuple[any] | None = None) -> list[any]:
+  def query(self, sql: str, values: dict[str, any] | tuple[any] | None = None) -> list[dict]:
     raise NotImplemented()
 
   def insert(self, table: str, values: dict[str, any]) -> None:
@@ -35,7 +35,7 @@ class SQLDatabase:
     order_by: dict[str, str] = None,
     limit: int = None,
     offset: int = None
-  ) -> list[any]:
+  ) -> list[dict]:
     OPERATORS = ["=", "<=", ">=", "<", ">", "<>"]
 
     mapper = self.__mapper()

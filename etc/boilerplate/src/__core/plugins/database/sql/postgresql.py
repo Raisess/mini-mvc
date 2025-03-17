@@ -44,8 +44,9 @@ class PostgreSQL(SQLDatabase):
 
     PostgreSQL.__CONN.run(sql, values)
 
-  def query(self, sql: str, values: dict[str, any] | tuple[any] | None = None) -> list[any]:
+  def query(self, sql: str, values: dict[str, any] | tuple[any] | None = None) -> list[dict]:
     if not PostgreSQL.__CONN:
       raise NotConnectedException("PostgreSQL", "USE_POSTGRES")
 
-    return PostgreSQL.__CONN.all(sql, values)
+    results = PostgreSQL.__CONN.all(sql, values)
+    return [item._asdict() for item in results]

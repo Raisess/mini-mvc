@@ -17,6 +17,11 @@ class SQLite(SQLDatabase):
       raise InvalidEnvironmentException("SQLITE_DB_PATH")
 
     SQLite.__CONN = sqlite3.connect(path)
+    def dict_factory(cursor, row):
+      fields = [column[0] for column in cursor.description]
+      return {key: value for key, value in zip(fields, row)}
+
+    SQLite.__CONN.row_factory = dict_factory
 
   def void_query(self, sql: str, values: dict[str, any] | tuple[any] | None = []) -> None:
     if not SQLite.__CONN:
@@ -26,7 +31,7 @@ class SQLite(SQLDatabase):
     cursor.execute(sql, values)
     SQLite.__CONN.commit()
 
-  def query(self, sql: str, values: dict[str, any] | tuple[any] | None = []) -> list[any]:
+  def query(self, sql: str, values: dict[str, any] | tuple[any] | None = []) -> list[dict]:
     if not SQLite.__CONN:
       raise NotConnectedException("SQLite", "USE_SQLITE")
 
