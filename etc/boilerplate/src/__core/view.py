@@ -27,7 +27,7 @@ class View:
 
   def render(self, params: dict[str, str | int] = {}) -> str:
     if type(self.__html) == bytes:
-      self.__html = str(zlib.decompress(self.__html))
+      self.__html = str(zlib.decompress(self.__html), "utf-8")
 
     template = Template(self.__html)
     return template.render(params)
