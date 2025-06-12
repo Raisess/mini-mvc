@@ -1,5 +1,5 @@
 import json
-from flask import Blueprint, redirect, request, session
+from flask import Blueprint, redirect, request, session, send_file
 from typing import Callable
 
 from __core.view import View
@@ -45,6 +45,14 @@ class Controller:
 
   def request(self) -> __Request:
     return Controller.__Request()
+
+  def download(self, filename: str, content: str) -> None:
+    from io import BytesIO
+    return send_file(
+      BytesIO(content.encode("utf-8")),
+      as_attachment=True,
+      download_name=filename,
+    )
 
   def render(self, view: View | str, data: dict = {}) -> str:
     is_view = isinstance(view, View)
