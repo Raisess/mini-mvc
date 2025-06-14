@@ -5,6 +5,9 @@ class SQLDatabase:
   def query(self, sql: str, values: dict[str, any] | tuple[any] | None = None) -> list[dict]:
     raise NotImplemented()
 
+  def plain(self, sql: str, values: dict[str, any] | tuple[any] | None = None) -> list[any]:
+    raise NotImplemented()
+
   def insert(self, table: str, values: dict[str, any]) -> None:
     mapper = self.__mapper()
     keys = values.keys()

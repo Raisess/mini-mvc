@@ -50,3 +50,9 @@ class PostgreSQL(SQLDatabase):
 
     results = PostgreSQL.__CONN.all(sql, values)
     return [item._asdict() for item in results]
+
+  def plain(self, sql: str, values: dict[str, any] | tuple[any] | None = None) -> list[any]:
+    if not PostgreSQL.__CONN:
+      raise NotConnectedException("PostgreSQL", "USE_POSTGRES")
+
+    return PostgreSQL.__CONN.all(sql, values)

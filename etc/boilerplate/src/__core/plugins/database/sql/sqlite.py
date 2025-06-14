@@ -38,3 +38,6 @@ class SQLite(SQLDatabase):
     cursor = SQLite.__CONN.cursor()
     result = cursor.execute(sql, values)
     return result.fetchall()
+
+  def plain(self, sql: str, values: dict[str, any] | tuple[any] | None = []) -> list[any]:
+    return self.query(sql, values)
