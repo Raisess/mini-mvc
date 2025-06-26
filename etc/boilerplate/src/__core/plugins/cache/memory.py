@@ -45,8 +45,8 @@ class Memory(Cache):
   def remove(self, keys: list[str]) -> int:
     Memory.__ValidateStart()
     for key in keys:
-      Memory.__DATA.pop(key)
-      Memory.__TTL.pop(key)
+      if Memory.__DATA.get(key): Memory.__DATA.pop(key)
+      if Memory.__TTL.get(key): Memory.__TTL.pop(key)
 
   def ttl(self, key: str) -> int | None:
     Memory.__ValidateStart()
