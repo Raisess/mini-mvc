@@ -40,4 +40,8 @@ class SQLite(SQLDatabase):
     return result.fetchall()
 
   def plain(self, sql: str, values: dict[str, any] | tuple[any] | None = []) -> list[any]:
-    return self.query(sql, values)
+    dict_factory_copy = SQLite.__CONN.row_factory
+    SQLite.__CONN.row_factory = None
+    result = self.query(sql, values)
+    SQLite.__CONN.row_factory = dict_factory_copy
+    return result
