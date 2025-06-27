@@ -45,7 +45,9 @@ class SQLDatabase:
     _columns = ", ".join(columns) if columns and len(columns) > 0 else "*"
     _where = []
     for (key, value) in where.items():
-      if isinstance(value, list):
+      if value == None:
+        _where.append(f"{key} IS NULL")
+      elif isinstance(value, list):
         _in = ", ".join([f"{mapper}" for i in value])
         _where.append(f"{key} IN({_in})")
       elif isinstance(value, tuple):
@@ -73,7 +75,7 @@ class SQLDatabase:
           values.append(item[1])
         else:
           values.extend(item)
-      else:
+      elif value != None:
         values.append(item)
 
     return self.query(query, values)
