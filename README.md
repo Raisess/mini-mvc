@@ -17,7 +17,7 @@ Model-View-Controller made easy, keeping it simple.
 - SMTP client for sending email's;
 - View's and email's templating using `Jinja2`
 
-Check all our plugins [here](/docs/PLUGINS.md).
+Check all our plugins [here](/docs/plugins.md).
 
 ### Installing the CLI:
 

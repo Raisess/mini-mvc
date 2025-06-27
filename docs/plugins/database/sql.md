@@ -4,7 +4,7 @@
 
 The list below shows the currently available sql databases implementations:
 
-- [PostgreSQL](etc/boilerplate/src/__core/plugins/database/sql/postgresql.py)
+- [PostgreSQL](/etc/boilerplate/src/__core/plugins/database/sql/postgresql.py)
     - For connecting with a `PostgreSQL` you will need 6 environment variables:
         - `USE_POSTGRES`: the value should be 1 to enable and 0 to disable;
         - `POSTGRES_DBNAME`: the database name you want to use for performing queries,
@@ -14,12 +14,12 @@ The list below shows the currently available sql databases implementations:
         - `POSTGRES_USER`: the database user;
         - `POSTGRES_PASS`: the database pass
 
-- [SQLite](etc/boilerplate/src/__core/plugins/database/sql/sqlite.py)
+- [SQLite](/etc/boilerplate/src/__core/plugins/database/sql/sqlite.py)
     - For connecting with a `SQLite` you only need 2 environment variables:
         - `USE_SQLITE`: the value enables or disable the plugin, same as `PostgreSQL`;
         - `SQLITE_DB_PATH`: the path of the data file, where it will be stored, can also be `:memory`
 
-All of then derive from the same base class [SQLDatabase](etc/boilerplate/src/__core/plugins/database/sql/database.py)
+All of then derive from the same base class [SQLDatabase](/etc/boilerplate/src/__core/plugins/database/sql/database.py)
 this class is responsible for implementation signature and expose the main
 methods for making sql queries: `void_query`, `query` and `plain` it also
 implements the `ORM` methods that will boost your repositories development.
