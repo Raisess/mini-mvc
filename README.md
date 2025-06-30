@@ -55,11 +55,11 @@ $ ./scripts/update.sh
 ### Generating resources:
 
 ```shell
-$ mini-mvc gen controller|model|view <name>
+$ mini-mvc gen controller|model|view|job <name>
 ```
 
 Or
 
 ```shell
-$ mini-mvc gen controller|model|view <namespace>/<name>
+$ mini-mvc gen controller|model|view|job <namespace>/<name>
 ```
