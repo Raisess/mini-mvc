@@ -69,4 +69,40 @@ SELECT COUNT(1) FROM my_table;
 
 ### ORM methods
 
+SQL is a really standard language, so you can use the same query for some different database engines,
+with that in mind, you can generate queries for simple tasks based on what parameters will need to pass.
+
+#### select
+
+The most complex queries will be selects, when you have a lot parameters in your `WHERE` clause,
+with this method you can simplify that a lot.
+
+```python
+db = PostgreSQL()
+db.select(
+    table="my_table",
+    columns=["name", "timestamp"],
+    where={ "name": "test" },
+    order_by={ "timestamp": "desc" },
+    limit=100,
+    offset=0,
+)
+```
+
+The result query will be something like this:
+
+```sql
+SELECT name, timestamp FROM my_table WHERE name = ? ORDER BY timestamp DESC LIMIT 100 OFFSET 0;
+```
+
+#### insert
+
+TODO
+
+#### update
+
+TODO
+
+#### delete
+
 TODO
