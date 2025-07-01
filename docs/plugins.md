@@ -21,6 +21,8 @@ If you have a plugin suggestion feel free to open a Issue or a Pull Request!
 - OAuth2:
     - Google Auth
 
+Check this [page](/docs/plugins) for specific plugin documentation.
+
 ### Enabling a plugin
 
 To enable a plugin you can check for the `USE_<PLUGIN>` on the `.env.example`

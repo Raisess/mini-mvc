@@ -63,3 +63,7 @@ Or
 ```shell
 $ mini-mvc gen controller|model|view|job <namespace>/<name>
 ```
+
+### Framework documentation
+
+Core features are documented [here](/docs).

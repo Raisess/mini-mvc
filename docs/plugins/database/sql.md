@@ -89,7 +89,7 @@ db.select(
 )
 ```
 
-The result query will be something like this:
+The executed query will be something like this:
 
 ```sql
 SELECT name, timestamp FROM my_table WHERE name = ? ORDER BY timestamp DESC LIMIT 100 OFFSET 0;
@@ -97,12 +97,29 @@ SELECT name, timestamp FROM my_table WHERE name = ? ORDER BY timestamp DESC LIMI
 
 #### insert
 
-TODO
+Simple row insert:
+
+```python
+db = PostgreSQL()
+db.insert("my_table", { "name": "test" })
+```
+
+Until now there's no batch insertion method, but it will be available on the future.
 
 #### update
 
-TODO
+```python
+db = PostgreSQL()
+db.update("my_table", where={ "name": "test" }, values={ "name": "new name" })
+```
+
+You can use an empty `dict` on where for updating all rows.
 
 #### delete
 
-TODO
+```python
+db = PostgreSQL()
+db.delete("my_table", where={ "name": "new name" })
+```
+
+You can use an empty `dict` on where for deleting all rows.
