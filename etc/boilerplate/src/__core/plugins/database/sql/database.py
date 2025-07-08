@@ -16,6 +16,21 @@ class SQLDatabase:
     query = f"INSERT INTO {table}({_columns}) VALUES({_values})"
     self.void_query(query, list(values.values()))
 
+  def batch_insert(self, table: str, values: list[dict[str, any]]) -> None:
+    mapper = self.__mapper()
+
+    _columns = ", ".join(values[0].keys())
+    batch = []
+    item_list_values = []
+    for item in values:
+      _values = ", ".join([mapper for key in item.keys()])
+      batch.append(_values)
+      item_list_values.extend(list(item.values()))
+
+    _values = "), (".join(batch)
+    query = f"INSERT INTO {table}({_columns}) VALUES({_values})"
+    self.void_query(query, item_list_values)
+
   def update(self, table: str, where: dict[str, any], values: dict[str, any]) -> None:
     mapper = self.__mapper()
     _values = ", ".join([f"{key} = {mapper}" for key in values.keys()])
@@ -33,7 +48,7 @@ class SQLDatabase:
   def select(
     self,
     table: str,
-    where: dict[str, any],
+    where: dict[str, any] = None,
     columns: list[str] = None,
     order_by: dict[str, str] = None,
     limit: int = None,
@@ -43,23 +58,26 @@ class SQLDatabase:
 
     mapper = self.__mapper()
     _columns = ", ".join(columns) if columns and len(columns) > 0 else "*"
-    _where = []
-    for (key, value) in where.items():
-      if value == None:
-        _where.append(f"{key} IS NULL")
-      elif isinstance(value, list):
-        _in = ", ".join([f"{mapper}" for i in value])
-        _where.append(f"{key} IN({_in})")
-      elif isinstance(value, tuple):
-        if value[0] in OPERATORS:
-          _where.append(f"({key} {value[0]} {mapper})")
-        else:
-          _where.append(f"({key} BETWEEN {mapper} AND {mapper})")
-      else:
-        _where.append(f"{key} = {mapper}")
 
-    _where = "WHERE " + " AND ".join(_where) if len(_where) > 0 else ""
-    query = f"SELECT {_columns} FROM {table} {_where}"
+    query = f"SELECT {_columns} FROM {table}"
+    if where:
+      _where = []
+      for (key, value) in where.items():
+        if value == None:
+          _where.append(f"{key} IS NULL")
+        elif isinstance(value, list):
+          _in = ", ".join([f"{mapper}" for i in value])
+          _where.append(f"{key} IN({_in})")
+        elif isinstance(value, tuple):
+          if value[0] in OPERATORS:
+            _where.append(f"({key} {value[0]} {mapper})")
+          else:
+            _where.append(f"({key} BETWEEN {mapper} AND {mapper})")
+        else:
+          _where.append(f"{key} = {mapper}")
+
+      _where = "WHERE " + " AND ".join(_where) if len(_where) > 0 else ""
+      query += f" {_where}"
     if order_by:
       _order_by = ", ".join([f"{key} {value}" for (key, value) in order_by.items()])
       query += f" ORDER BY {_order_by}"
@@ -69,14 +87,15 @@ class SQLDatabase:
       query += f" OFFSET {offset}"
 
     values = []
-    for item in where.values():
-      if isinstance(item, tuple) or isinstance(item, list):
-        if item[0] in OPERATORS:
-          values.append(item[1])
-        else:
-          values.extend(item)
-      elif value != None:
-        values.append(item)
+    if where:
+      for item in where.values():
+        if isinstance(item, tuple) or isinstance(item, list):
+          if item[0] in OPERATORS:
+            values.append(item[1])
+          else:
+            values.extend(item)
+        elif value != None:
+          values.append(item)
 
     return self.query(query, values)
 
