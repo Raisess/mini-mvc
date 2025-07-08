@@ -16,7 +16,7 @@ class SQLDatabase:
     query = f"INSERT INTO {table}({_columns}) VALUES({_values})"
     self.void_query(query, list(values.values()))
 
-  def batch_insert(self, table: str, values: list[dict[str, any]]) -> None:
+  def batch_insert(self, table: str, pk: str | None, values: list[dict[str, any]]) -> None:
     mapper = self.__mapper()
 
     _columns = ", ".join(values[0].keys())
@@ -29,6 +29,9 @@ class SQLDatabase:
 
     _values = "), (".join(batch)
     query = f"INSERT INTO {table}({_columns}) VALUES({_values})"
+    if pk:
+      query += f" ON CONFLICT({pk}) DO NOTHING"
+
     self.void_query(query, item_list_values)
 
   def update(self, table: str, where: dict[str, any], values: dict[str, any]) -> None:
