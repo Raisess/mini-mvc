@@ -7,6 +7,16 @@ from __core.env import Env, InvalidEnvironmentException
 from __core.exceptions import InvalidEnvironmentException
 
 class Mailer:
+  """
+  @FLAG: USE_MAILER
+
+  Required ENV's:
+    - MAILER_HOST: The host of the SMPT server
+    - MAILER_PORT: The port of the SMTP server
+    - MAILER_USER: The authentication username
+    - MAILER_PASS: The authentication password
+  """
+
   __CLIENT: SMTP = None
   __SENDER: str = None
 

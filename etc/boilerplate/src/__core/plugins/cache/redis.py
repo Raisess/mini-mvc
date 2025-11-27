@@ -1,7 +1,3 @@
-# @NOTE: To use this implementation you need to add the `redis` package to
-# `requirements.txt`
-# @REFERENCE: https://github.com/redis/redis-py
-
 import json
 
 from __core.env import Env
@@ -9,6 +5,15 @@ from __core.exceptions import InvalidEnvironmentException, NotConnectedException
 from __core.plugins.cache.cache import Cache
 
 class Redis(Cache):
+  """
+  @FLAG: USE_REDIS
+
+  @NOTE: To use this implementation you need to add the `redis` package to
+  `requirements.txt`
+
+  @REFERENCE: https://github.com/redis/redis-py
+  """
+
   __CLIENT = None
 
   @staticmethod

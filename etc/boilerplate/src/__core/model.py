@@ -27,6 +27,11 @@ class Model:
     return Model.FromDict(ModelClass, json.loads(data))
 
   def to_dict(self) -> dict:
+    """
+    @WARNING: This method drop the keys with the `fk_` prefix, this is to
+    obfuscate foreign key returned data, so if you have that type of data in
+    your model I'd recommend to use `fk_` prefix on it.
+    """
     dictionare = self.__dict__
     for key in list(dictionare.keys()):
       if key.startswith("fk_"):

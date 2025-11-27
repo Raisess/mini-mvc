@@ -1,12 +1,20 @@
-# @NOTE: To use this implementation you need to add the `firebase-admin` package to
-# `requirements.txt`
-# @REFERENCE: https://github.com/firebase/firebase-admin-python
-
 from __core.env import Env
 from __core.exceptions import InvalidEnvironmentException, NotConnectedException
 from __core.plugins.database.no_sql.database import NoSQLDatabase
 
 class Firestore(NoSQLDatabase):
+  """
+  @FLAG: USE_FIRESTORE
+
+  Required ENV's:
+    - GCLOUD_CREDENTIALS_PATH: the path of the GCloud credentials json
+
+  @NOTE: To use this implementation you need to add the `firebase-admin` package to
+  `requirements.txt`
+
+  @REFERENCE: https://github.com/firebase/firebase-admin-python
+  """
+
   __CLIENT = None
 
   @staticmethod

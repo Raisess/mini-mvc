@@ -5,6 +5,13 @@ from __core.exceptions import InvalidEnvironmentException, NotConnectedException
 from __core.plugins.database.sql.database import SQLDatabase
 
 class SQLite(SQLDatabase):
+  """
+  @FLAG: USE_SQLITE
+
+  Required ENV's:
+    - SQLITE_DB_PATH: the path where the `.db` file will be saved
+  """
+
   __CONN = None
 
   @staticmethod

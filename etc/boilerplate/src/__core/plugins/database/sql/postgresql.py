@@ -1,12 +1,23 @@
-# @NOTE: To use this implementation you need to add the `postgres` package to
-# `requirements.txt`
-# @REFERENCE: https://github.com/liberapay/postgres.py
-
 from __core.env import Env
 from __core.exceptions import InvalidEnvironmentException, NotConnectedException
 from __core.plugins.database.sql.database import SQLDatabase
 
 class PostgreSQL(SQLDatabase):
+  """
+  @FLAG: USE_POSTGRES
+
+  Required ENV's:
+    - POSTGRES_USER: the authentication username
+    - POSTGRES_PASS: the authentication password
+    - POSTGRES_HOST: the instance host, without the protocol, e.g.: localhost
+    - POSTGRES_PORT: the instance port the database is running on
+    - POSTGRES_DBNAME: the name of the database that the application will use
+
+  @NOTE: To use this implementation you need to add the `postgres` package to
+  `requirements.txt`
+
+  @REFERENCE: https://github.com/liberapay/postgres.py
+  """
   __CONN = None
 
   @staticmethod
