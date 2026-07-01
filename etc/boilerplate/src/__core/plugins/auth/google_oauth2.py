@@ -1,22 +1,13 @@
+# @NOTE: To use this implementation you need to add the `google-auth-oauthlib` package to
+# `requirements.txt`
+# @REFERENCE: https://github.com/googleapis/google-auth-library-python-oauthlib
+
 from __core.env import Env
 from __core.exceptions import InvalidEnvironmentException, NotConnectedException
 
 class GoogleOAuth2:
-  """
-  @FLAG: USE_GOOGLE_OAUTH2
-
-  Required ENV's:
-    - GOOGLE_OAUTH2_CLIENT_ID: Your GCloud project client ID
-    - GOOGLE_OAUTH2_CLIENT_SECRET: Your GCloud project client secret
-    - GOOGLE_OAUTH2_CLIENT_SCOPES: Your GCloud project client scopes
-
-  @NOTE: To use this implementation you need to add the `google-auth-oauthlib` package to
-  `requirements.txt`
-
-  @REFERENCE: https://github.com/googleapis/google-auth-library-python-oauthlib
-  """
-
   __STARTED = False
+  __CLIENT = None
 
   @staticmethod
   def Init():
@@ -29,6 +20,9 @@ class GoogleOAuth2:
   def __GetClient(state: str = None) -> any:
     if not GoogleOAuth2.__STARTED:
       raise NotConnectedException("GoogleOAuth2", "USE_GOOGLE_OAUTH2")
+
+    if GoogleOAuth2.__CLIENT is not None:
+      return GoogleOAuth2.__CLIENT
 
     client_id = Env.Get("GOOGLE_OAUTH2_CLIENT_ID")
     if not client_id:
@@ -43,7 +37,7 @@ class GoogleOAuth2:
       raise InvalidEnvironmentException("GOOGLE_OAUTH2_SCOPES")
 
     from google_auth_oauthlib.flow import InstalledAppFlow
-    return InstalledAppFlow.from_client_config(
+    GoogleOAuth2.__CLIENT = InstalledAppFlow.from_client_config(
       client_config={
         "web": {
           "client_id": client_id,
@@ -55,6 +49,7 @@ class GoogleOAuth2:
       scopes=scopes,
       state=state
     )
+    return GoogleOAuth2.__CLIENT
 
   def get_authorization_url(self, redirect_uri: str, state: str = None) -> str:
     from google_auth_oauthlib.flow import InstalledAppFlow
@@ -67,10 +62,10 @@ class GoogleOAuth2:
     )
     return authorization_url
 
-  def get_authorized_token(self, from_redirect_uri: str, authorization_code: str) -> str:
+  def get_authorized_token(self, from_uri: str, authorization_code: str) -> str:
     from google_auth_oauthlib.flow import InstalledAppFlow
 
     client: InstalledAppFlow = GoogleOAuth2.__GetClient()
-    client.redirect_uri = from_redirect_uri
+    client.redirect_uri = from_uri
     client.fetch_token(code=authorization_code)
     return client.credentials.token
