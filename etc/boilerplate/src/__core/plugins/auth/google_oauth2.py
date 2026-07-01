@@ -67,10 +67,10 @@ class GoogleOAuth2:
     )
     return authorization_url
 
-  def get_authorized_token(self, from_uri: str, authorization_code: str) -> str:
+  def get_authorized_token(self, from_redirect_uri: str, authorization_code: str) -> str:
     from google_auth_oauthlib.flow import InstalledAppFlow
 
     client: InstalledAppFlow = GoogleOAuth2.__GetClient()
-    client.redirect_uri = from_uri
+    client.redirect_uri = from_redirect_uri
     client.fetch_token(code=authorization_code)
     return client.credentials.token
