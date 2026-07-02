@@ -1,5 +1,13 @@
 # Google OAuth2
 
+### Package
+
+Add this to your `requirements.txt`:
+
+```
+google-auth-oauthlib==1.4.0
+```
+
 ### About
 
 The `GoogleOAuth2` plugin is a simple and fast way to implement authentication to your app,

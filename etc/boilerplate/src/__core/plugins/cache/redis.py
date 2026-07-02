@@ -8,7 +8,12 @@ class Redis(Cache):
   """
   @FLAG: USE_REDIS
 
-  @NOTE: To use this implementation you need to add the `redis` package to
+  Required ENV's:
+    - REDIS_HOST: the redis server host
+    - REDIS_PORT: the redis server port
+    - REDIS_PASS: the redis server password if required
+
+  @NOTE: To use this implementation you need to add the `redis==8.0.1` package to
   `requirements.txt`
 
   @REFERENCE: https://github.com/redis/redis-py

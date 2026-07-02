@@ -1,11 +1,20 @@
-# @NOTE: To use this implementation you need to add the `google-auth-oauthlib` package to
-# `requirements.txt`
-# @REFERENCE: https://github.com/googleapis/google-auth-library-python-oauthlib
-
 from __core.env import Env
 from __core.exceptions import InvalidEnvironmentException, NotConnectedException
 
 class GoogleOAuth2:
+  """
+  @FLAG: USE_GOOGLE_OAUTH2
+
+  Required ENV's:
+    - GOOGLE_OAUTH2_CLIENT_ID: your GCP project client id string
+    - GOOGLE_OAUTH2_CLIENT_SECRET: your GCP project client secret
+    - GOOGLE_OAUTH2_SCOPES: the scopes that will be enabled for that client
+
+  @NOTE: To use this implementation you need to add the `google-auth-oauthlib==1.4.0` package to
+  `requirements.txt`
+
+  @REFERENCE: https://github.com/googleapis/google-auth-library-python-oauthlib
+  """
   __STARTED = False
   __CLIENT = None
 

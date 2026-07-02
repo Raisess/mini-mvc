@@ -14,6 +14,14 @@ The list below shows the currently available sql databases implementations:
         - `POSTGRES_USER`: the database user;
         - `POSTGRES_PASS`: the database pass
 
+#### Package
+
+Add this to your `requirements.txt`:
+
+```
+postgres==4.0
+```
+
 - [SQLite](/etc/boilerplate/src/__core/plugins/database/sql/sqlite.py)
     - For connecting with a `SQLite` you only need 2 environment variables:
         - `USE_SQLITE`: the value enables or disable the plugin, same as `PostgreSQL`;
@@ -23,6 +31,10 @@ All of then derive from the same base class [SQLDatabase](/etc/boilerplate/src/_
 this class is responsible for implementation signature and expose the main
 methods for making sql queries: `void_query`, `query` and `plain` it also
 implements the `ORM` methods that will boost your repositories development.
+
+#### Package
+
+SQLite uses the builtin python plugin.
 
 ### Core methods
 

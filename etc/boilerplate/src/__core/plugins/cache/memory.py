@@ -7,6 +7,10 @@ from __core.plugins.cache.cache import Cache
 WORKER_INTERVAL_SECS = 0.100
 
 class Memory(Cache):
+  """
+  @FLAG: USE_MEMORY
+  """
+
   __STARTED = False
   __LOCK = None
   __DATA: dict[str, any] = {}

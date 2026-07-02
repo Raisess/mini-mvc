@@ -13,7 +13,7 @@ class PostgreSQL(SQLDatabase):
     - POSTGRES_PORT: the instance port the database is running on
     - POSTGRES_DBNAME: the name of the database that the application will use
 
-  @NOTE: To use this implementation you need to add the `postgres` package to
+  @NOTE: To use this implementation you need to add the `postgres==4.0` package to
   `requirements.txt`
 
   @REFERENCE: https://github.com/liberapay/postgres.py
