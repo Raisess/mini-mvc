@@ -17,4 +17,25 @@ do
   cp ./mini-mvc/etc/boilerplate/$file $CURRENT_DIR/$file
 done
 
+# Check if the project directory has a Git repository initialized
+if [ -d $CURRENT_DIR/.git ]; then
+  cd $CURRENT_DIR
+
+  # Stash current changes
+  git stash
+
+  # Add modifications
+  git add .
+
+  # Commit changes
+  git commit -m "update mini-mvc"
+
+  # Pop the stashed changes
+  git stash pop
+
+  echo "Git commit created: update mini-mvc"
+else
+  echo "Git repository not found. Skipping commit process."
+fi
+
 echo "Done!"
