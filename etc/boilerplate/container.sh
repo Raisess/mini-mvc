@@ -1,5 +1,13 @@
 #! /usr/bin/env sh
 
+printf "Select your container application manager [podman/docker]: "
+read -r CAM
+
+if [ "$CAM" != "podman" ] && [ "$CAM" != "docker" ]; then
+  printf '%s\n' "Container application manager must be podman or docker." >&2
+  exit 1
+fi
+
 printf "Select your port number, e.g. 8080: "
 read -r PORT
 
@@ -17,9 +25,10 @@ fi
 
 NAME="$(basename "$PWD")"
 
-podman build -t "$NAME" .
+$CAM build -t "$NAME" .
 
-podman run -d \
+$CAM run -d \
+  --hostname $NAME.local \
   --name "$NAME" \
   --env-file ./.env \
   -p "${PORT}:8080/tcp" \
